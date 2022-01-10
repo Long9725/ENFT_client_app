@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screen/postList.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
 
@@ -15,10 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List _widgetOptions = [
-      Text(
-        'HomeScreen',
-        style: TextStyle(fontSize: 40),
-      ),
+      PostListScreen(),
       Text(
         'FavoriteScreen',
         style: TextStyle(fontSize: 40),
@@ -49,9 +48,9 @@ class _HomePageState extends State<HomePage> {
             ),
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
-              backgroundColor: Colors.amber,
+              backgroundColor: Color(0xFF041e42),
               selectedItemColor: Colors.white,
-              unselectedItemColor: Colors.black38,
+              unselectedItemColor: Colors.black54,
               selectedFontSize: 14,
               unselectedFontSize: 14,
               currentIndex: _selectedIndex,
