@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+
+import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
 
 import '../helper.dart';
 import '../widget/list_item.dart';
@@ -12,14 +17,20 @@ class LocationPage extends StatefulWidget {
 
 class _LocationPageState extends State<LocationPage> {
   TextEditingController _textEditingController = TextEditingController();
+  var location = new Location();
 
-  @override
-  void initState() {}
 
   @override
   void dispose() {
     super.dispose();
     _textEditingController.dispose();
+  }
+
+  Future<String> getPlaceToAddress(double? lat, double? lng) async {
+    final googleMapKey = Key('Google Map');
+    final url = Uri.parse('https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=');
+    final response = await http.get(url);
+    return jsonDecode(response.body)['results'][0]['formatted_address'];
   }
 
   @override
@@ -52,7 +63,13 @@ class _LocationPageState extends State<LocationPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          LocationData _locationData;
+                          _locationData = await location.getLocation();
+                          final address = await getPlaceToAddress(_locationData.latitude, _locationData.longitude);
+                          print(address);
+                          print(_locationData);
+                        },
                         child: Text('현재 위치로 찾기',
                         style: TextStyle(
                           color: Colors.white,
