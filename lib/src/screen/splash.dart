@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 import 'package:lottie/lottie.dart';
 
-import '../page/login.dart';
+import '../page/getting_started.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
             (value) => _lottieAnimation.forward().then(
                   (value) => Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                          builder: (context) => LoginPage(title: "blue")),
+                          builder: (context) => GettingStartedPage(title: "blue")),
                       (route) => false),
                 ),
           ),

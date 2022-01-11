@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+Color primaryColor = Color(0xFF041e42);
+
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
   Map<int, Color> swatch = <int, Color>{};
@@ -18,4 +20,28 @@ MaterialColor createMaterialColor(Color color) {
     );
   });
   return MaterialColor(color.value, swatch);
+}
+
+Color getForegroundColor(Set<MaterialState> states) {
+  const Set<MaterialState> interactiveStates = <MaterialState>{
+    MaterialState.pressed,
+    MaterialState.hovered,
+    MaterialState.focused,
+  };
+  if (states.any(interactiveStates.contains)) {
+    return Color(0xFFffffff);
+  }
+  return Color(0xFFa0a0a0);
+}
+
+Color getBackgroundColor(Set<MaterialState> states) {
+  const Set<MaterialState> interactiveStates = <MaterialState>{
+    MaterialState.pressed,
+    MaterialState.hovered,
+    MaterialState.focused,
+  };
+  if (states.any(interactiveStates.contains)) {
+    return Color(0xFF82b6ff);
+  }
+  return primaryColor;
 }

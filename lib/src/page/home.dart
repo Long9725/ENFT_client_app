@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screen/postList.dart';
+import '../screen/post_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -43,9 +43,6 @@ class _HomePageState extends State<HomePage> {
       body: DefaultTabController(
           length: 4,
           child: Scaffold(
-            appBar: AppBar(
-              title: Text(widget.title),
-            ),
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               backgroundColor: Color(0xFF041e42),
