@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:blue/src/widget/slide_dots.dart';
 import 'package:flutter/material.dart';
 
-import 'package:lottie/lottie.dart';
-
 import 'home.dart';
+import 'loaction.dart';
+
 import '../helper.dart';
 import '../widget/slide_item.dart';
 import '../widget/slide_dots.dart';
@@ -127,7 +127,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                         TextButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => HomePage(title: "blue"),
+                                builder: (context) => LocationPage(),
                               ));
                             },
                             child: Text("Login")),

@@ -8,7 +8,19 @@ class PostListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Scaffold(
+        appBar: AppBar(
+          title: Row(
+            children: [
+
+            ],
+          ),
+          automaticallyImplyLeading: false,
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
+          elevation: 0.2,
+        ),
+        body: ListView(
       children: <Widget>[
         CustomListItem(
           thumbnail: Container(
@@ -81,6 +93,6 @@ class PostListScreen extends StatelessWidget {
           },
         ),
       ],
-    );
+    ));
   }
 }
