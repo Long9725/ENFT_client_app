@@ -44,4 +44,20 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 </dict>
+<dict>
+  <key>NMFClientId</key>
+  <string>z52tng9isq</string>
+  <key>io.flutter.embedded_views_preview</key>
+  <true/>
+  <key>NSAllowsArbitraryLoads</key>
+  <true/>
+</dict>
+<dict>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>USAGE PERPOSE</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>USAGE PERPOSE</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>USAGE PERPOSE</string>
+</dict>
 </plist>

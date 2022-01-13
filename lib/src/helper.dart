@@ -45,3 +45,38 @@ Color getBackgroundColor(Set<MaterialState> states) {
   }
   return primaryColor;
 }
+
+List<Map<String, String>> latLonMapWithSnailArray(int num, String latitude, String longitude) {
+  List<Map<String, String>> latLonMap = List.generate(num*num, (_) => <String, String>{});
+  // List<Map<String, String>> gpsMap = List.filled(num*num+1,  <String, String>{}, growable: true);
+  double lat = double.parse(latitude);
+  double lon = double.parse(longitude);
+
+  int index = 0;
+  int swift = 1; // +는 행열의 증가, -는 행과 열의 감소
+  int col = 1, row = 0;
+
+  //[2] 처리
+  do {
+    for (int i = 0; i < num; i++) {
+      row += swift; // 열은 변화, 행은 고정
+      lat += 0.035 * swift;
+      latLonMap[index].addAll({'lat':lat.toString(), 'lon': longitude.toString()});
+      index = index + 1;
+    }
+    num -= 1;
+    if (num > 0) {
+      for (int i = 0; i < num; i++) {
+        col += swift; // 열은 고정, 행은 변화
+        lon += 0.075 * swift;
+        latLonMap[index].addAll({'lat':lat.toString(), 'lon': longitude.toString()});
+        index = index + 1;
+      }
+      swift *= (-1); // 스위칭
+    } else {
+      break;
+    }
+  } while (true);
+
+  return latLonMap;
+}
