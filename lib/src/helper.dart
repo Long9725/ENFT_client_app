@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+
+import 'package:http/http.dart' as http;
 
 const double kDefaultPadding = 16.0;
 const Color kPrimaryColor = Color(0xFF041e42);
@@ -80,4 +84,39 @@ List<Map<String, String>> latLonMapWithSnailArray(int num, String latitude, Stri
   } while (true);
 
   return latLonMap;
+}
+
+Future<List> fetchData(int num, String lat, String lon) async {
+  List<String> address = [];
+  List<Map<String, String>> gpsMap = latLonMapWithSnailArray(num, lat, lon);
+  Map<String, String> headers = {
+    "X-NCP-APIGW-API-KEY-ID": "",
+    "X-NCP-APIGW-API-KEY": ""
+  };
+
+  String temp = "";
+  int index = 0;
+  for (int i = 0; i < gpsMap.length; i++) {
+    http.Response response = await http.get(
+        Uri.parse(
+            "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=${gpsMap[i]['lon']},${gpsMap[i]['lat']}&sourcecrs=epsg:4326&output=json"),
+        headers: headers);
+
+    String jsonData = response.body;
+
+    var state = jsonDecode(jsonData)["results"][1]['region']['area1']['name'];
+    var city = jsonDecode(jsonData)["results"][1]['region']['area2']['name'];
+    var town = jsonDecode(jsonData)["results"][1]['region']['area3']['name'];
+
+    temp = state + " " + city + " " + town;
+
+    if(address.contains(temp) == true) {
+      continue;
+    } else {
+      address.add(temp);
+    }
+  }
+
+
+  return address;
 }

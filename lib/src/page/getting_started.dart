@@ -10,6 +10,7 @@ import 'loaction.dart';
 import '../helper.dart';
 import '../widget/slide_item.dart';
 import '../widget/slide_dots.dart';
+import 'package:blue/src/widget/overlapped_circular_progress_indicator.dart';
 import '../model/slide.dart';
 
 class GettingStartedPage extends StatefulWidget {
@@ -22,6 +23,7 @@ class GettingStartedPage extends StatefulWidget {
 }
 
 class _GettingStartedPageState extends State<GettingStartedPage> {
+  bool _isVisible = false;
   int _currentPage = 0;
   final PageController _pageController = PageController(initialPage: 0);
 
@@ -46,7 +48,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
     _pageController.dispose();
   }
 
-  _onPageChanged(int index)  {
+  _onPageChanged(int index) {
     setState(() {
       _currentPage = index;
     });
@@ -55,112 +57,150 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     double belowSlideDotsHeight = 102.0; // 96+6
     double pageViewHeight = 326.0; // 200 + 16*2 + 24 + 16 + 18*3
-    double paddingSlideDotsFromBtn = (height - (belowSlideDotsHeight+pageViewHeight+kDefaultPadding*2)) / 4;
+    double paddingSlideDotsFromBtn = (height -
+            (belowSlideDotsHeight + pageViewHeight + kDefaultPadding * 2)) /
+        4;
 
     return Scaffold(
-      body: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(kDefaultPadding),
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                    child: Stack(
-                  alignment: AlignmentDirectional.bottomCenter,
-                  children: <Widget>[
-                    PageView.builder(
-                        scrollDirection: Axis.horizontal,
-                        controller: _pageController,
-                        onPageChanged: _onPageChanged,
-                        itemCount: slideList.length,
-                        itemBuilder: (context, index) => SlideItem(index)),
-                    Stack(
-                      alignment: AlignmentDirectional.topStart,
-                      children: <Widget>[
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                        for (int i = 0; i < slideList.length; i++)
-                          if (i == _currentPage)
-                            const SlideDots(true)
-                          else
-                            const SlideDots(false)
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                )),
-                SizedBox(height: paddingSlideDotsFromBtn),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    OutlinedButton(
-                      child: const Text("Getting Started"),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const HomePage(title: "blue"),
-                        ));
-                      },
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
+      body: Stack(children: [
+        Visibility(
+          visible: _isVisible,
+          child: OverlappedCircularProgressIndicator(height: height, width: width),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(kDefaultPadding),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                  child: Stack(
+                alignment: AlignmentDirectional.bottomCenter,
+                children: <Widget>[
+                  PageView.builder(
+                      scrollDirection: Axis.horizontal,
+                      controller: _pageController,
+                      onPageChanged: _onPageChanged,
+                      itemCount: slideList.length,
+                      itemBuilder: (context, index) => SlideItem(index)),
+                  Stack(
+                    alignment: AlignmentDirectional.topStart,
+                    children: <Widget>[
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          for (int i = 0; i < slideList.length; i++)
+                            if (i == _currentPage)
+                              const SlideDots(true)
+                            else
+                              const SlideDots(false)
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              )),
+              SizedBox(height: paddingSlideDotsFromBtn),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  OutlinedButton(
+                    child: const Text("Getting Started"),
+                    onPressed: () async {
+                      setState(() {
+                        _isVisible = true;
+                      });
+                      Location location = Location();
+
+                      bool _serviceEnabled;
+                      PermissionStatus _permissionGranted;
+
+                      _serviceEnabled = await location.serviceEnabled();
+                      if (!_serviceEnabled) {
+                        _serviceEnabled = await location.requestService();
+                        if (!_serviceEnabled) {
+                          return;
+                        }
+                      }
+
+                      _permissionGranted = await location.hasPermission();
+                      if (_permissionGranted == PermissionStatus.denied) {
+                        _permissionGranted =
+                            await location.requestPermission();
+                        if (_permissionGranted !=
+                            PermissionStatus.granted) {
+                          return;
+                        }
+                      }
+
+                      LocationData _locationData;
+                      _locationData = await location.getLocation();
+
+                      fetchData(5, _locationData.longitude.toString(), _locationData.latitude.toString());
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => LocationPage(),
+                      ));
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                        foregroundColor: MaterialStateProperty.all(const Color(0xFFF0F0F0)),
-                        backgroundColor:
-                            MaterialStateProperty.all(kPrimaryColor),
                       ),
+                      foregroundColor:
+                          MaterialStateProperty.all(const Color(0xFFF0F0F0)),
+                      backgroundColor: MaterialStateProperty.all(kPrimaryColor),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const Text(
-                          "Have an account?",
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text(
+                        "Have an account?",
+                        style: TextStyle(
+                          fontSize: 16,
                         ),
-                        TextButton(
-                            onPressed: () async {
-                              Location location = Location();
+                      ),
+                      TextButton(
+                          onPressed: () async {
+                            Location location = Location();
 
-                              bool _serviceEnabled;
-                              PermissionStatus _permissionGranted;
-                              LocationData _locationData;
+                            bool _serviceEnabled;
+                            PermissionStatus _permissionGranted;
 
-                              _serviceEnabled = await location.serviceEnabled();
+                            _serviceEnabled = await location.serviceEnabled();
+                            if (!_serviceEnabled) {
+                              _serviceEnabled = await location.requestService();
                               if (!_serviceEnabled) {
-                                _serviceEnabled = await location.requestService();
-                                if (!_serviceEnabled) {
-                                  return;
-                                }
+                                return;
                               }
+                            }
 
-                              _permissionGranted = await location.hasPermission();
-                              if (_permissionGranted == PermissionStatus.denied) {
-                                _permissionGranted = await location.requestPermission();
-                                if (_permissionGranted != PermissionStatus.granted) {
-                                  return;
-                                }
+                            _permissionGranted = await location.hasPermission();
+                            if (_permissionGranted == PermissionStatus.denied) {
+                              _permissionGranted =
+                                  await location.requestPermission();
+                              if (_permissionGranted !=
+                                  PermissionStatus.granted) {
+                                return;
                               }
+                            }
 
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => LocationPage(),
-                              ));
-                            },
-                            child: const Text("Login")),
-                      ],
-                    )
-                  ],
-                )
-              ],
-            ),
-          )),
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => LocationPage(),
+                            ));
+                          },
+                          child: const Text("Login")),
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+        )
+      ]),
     );
   }
 }

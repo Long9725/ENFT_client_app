@@ -24,41 +24,6 @@ class _LocationPageState extends State<LocationPage> {
     _textEditingController.dispose();
   }
 
-  Future<List> fetchData(int num, String lat, String lon) async {
-    List<String> address = [];
-    List<Map<String, String>> gpsMap = latLonMapWithSnailArray(num, lat, lon);
-    Map<String, String> headers = {
-      "X-NCP-APIGW-API-KEY-ID": "",
-      "X-NCP-APIGW-API-KEY": ""
-    };
-
-    String temp = "";
-    int index = 0;
-    for (int i = 0; i < gpsMap.length; i++) {
-      http.Response response = await http.get(
-          Uri.parse(
-              "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=${gpsMap[i]['lon']},${gpsMap[i]['lat']}&sourcecrs=epsg:4326&output=json"),
-          headers: headers);
-
-      String jsonData = response.body;
-
-      var state = jsonDecode(jsonData)["results"][1]['region']['area1']['name'];
-      var city = jsonDecode(jsonData)["results"][1]['region']['area2']['name'];
-      var town = jsonDecode(jsonData)["results"][1]['region']['area3']['name'];
-
-      temp = state + " " + city + " " + town;
-
-      if(address.contains(temp) == true) {
-        continue;
-      } else {
-        address.add(temp);
-      }
-    }
-
-
-    return address;
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -127,7 +92,7 @@ class _LocationPageState extends State<LocationPage> {
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData == false) {
-                              return const CircularProgressIndicator();
+                              return const Expanded(child: Center(child: CircularProgressIndicator()));
                             } else if (snapshot.hasError) {
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
