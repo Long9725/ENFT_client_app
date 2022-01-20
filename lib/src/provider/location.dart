@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class LocationProvider with ChangeNotifier {
-  List<String> _addressList;
+  List _addressList = [];
 
-  LocationProvider(this._addressList);
+  LocationProvider();
 
-  getAddressList() => _addressList;
-
-  setAddressList(List<String> addressList) {
+  set addressList(List addressList) {
     _addressList = addressList;
-    notifyListeners();
+  }
+
+  List get addressList {
+    return _addressList;
   }
 }

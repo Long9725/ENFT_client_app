@@ -10,11 +10,11 @@ class OverlappedCircularProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-        opacity: 0.3,
+        opacity: 0.75,
         child: Container(
             height: height,
             width: width,
-            color: Colors.grey,
+            color: Colors.grey[200],
             child: const Center(child: CircularProgressIndicator())));
   }
 }

@@ -53,7 +53,6 @@ Color getBackgroundColor(Set<MaterialState> states) {
 
 List<Map<String, String>> latLonMapWithSnailArray(int num, String latitude, String longitude) {
   List<Map<String, String>> latLonMap = List.generate(num*num, (_) => <String, String>{});
-  // List<Map<String, String>> gpsMap = List.filled(num*num+1,  <String, String>{}, growable: true);
   double lat = double.parse(latitude);
   double lon = double.parse(longitude);
 
@@ -95,7 +94,7 @@ Future<List> fetchData(int num, String lat, String lon) async {
   };
 
   String temp = "";
-  int index = 0;
+
   for (int i = 0; i < gpsMap.length; i++) {
     http.Response response = await http.get(
         Uri.parse(
@@ -116,7 +115,6 @@ Future<List> fetchData(int num, String lat, String lon) async {
       address.add(temp);
     }
   }
-
 
   return address;
 }
