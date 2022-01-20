@@ -6,18 +6,17 @@ import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 
 import '../helper.dart';
-import '../widget/list_item.dart';
 
 class LocationPage extends StatefulWidget {
-  LocationPage({Key? key}) : super(key: key);
+  const LocationPage({Key? key}) : super(key: key);
 
   @override
   State<LocationPage> createState() => _LocationPageState();
 }
 
 class _LocationPageState extends State<LocationPage> {
-  TextEditingController _textEditingController = TextEditingController();
-  var location = new Location();
+  final TextEditingController _textEditingController = TextEditingController();
+  var location = Location();
 
   @override
   void dispose() {
@@ -49,9 +48,13 @@ class _LocationPageState extends State<LocationPage> {
 
       temp = state + " " + city + " " + town;
 
-      if(address.contains(temp) == true) continue;
-      else address.add(temp);
+      if(address.contains(temp) == true) {
+        continue;
+      } else {
+        address.add(temp);
+      }
     }
+
 
     return address;
   }
@@ -62,7 +65,7 @@ class _LocationPageState extends State<LocationPage> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
             appBar: AppBar(
-              title: TextField(
+              title: const TextField(
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.search),
                   hintText: '지역을 입력해주세요. (동명(읍,면)으로 검색)',
@@ -95,7 +98,7 @@ class _LocationPageState extends State<LocationPage> {
                           // });
                           // latLonMapWithSnailArray(5, "37.541", "126.976");
                         },
-                        child: Text(
+                        child: const Text(
                           '현재 위치로 찾기',
                           style: TextStyle(
                             color: Colors.white,
@@ -110,26 +113,26 @@ class _LocationPageState extends State<LocationPage> {
                           foregroundColor: MaterialStateProperty.resolveWith(
                               getForegroundColor),
                           backgroundColor:
-                              MaterialStateProperty.all(primaryColor),
+                              MaterialStateProperty.all(kPrimaryColor),
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Text(
+                      const SizedBox(height: 10),
+                      const Text(
                         "근처 동네",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       FutureBuilder(
                           future: fetchData(5, "37.541", "126.976"),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData == false) {
-                              return CircularProgressIndicator();
+                              return const CircularProgressIndicator();
                             } else if (snapshot.hasError) {
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text('Error: ${snapshot.error}',
-                                    style: TextStyle(fontSize: 15)),
+                                    style: const TextStyle(fontSize: 15)),
                               );
                             } else {
                               return Expanded(
@@ -162,7 +165,7 @@ class _LocationPageState extends State<LocationPage> {
                                                                     32,
                                                                 40))),
                                                 child: Text(address,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         color: Colors.black))),
                                           ],
                                         ),

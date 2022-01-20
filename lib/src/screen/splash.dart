@@ -6,6 +6,8 @@ import 'package:lottie/lottie.dart';
 import '../page/getting_started.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -14,25 +16,25 @@ class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late AnimationController _lottieAnimation;
   var expanded = false;
-  double _bigFontSize = 178;
+  final double _bigFontSize = 178;
   final transitionDuration = Duration(seconds: 1);
 
   @override
   void initState() {
     _lottieAnimation = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
 
-    Future.delayed(Duration(seconds: 1))
+    Future.delayed(const Duration(seconds: 1))
         .then((value) => setState(() => expanded = true))
-        .then((value) => Duration(seconds: 1))
+        .then((value) => const Duration(seconds: 1))
         .then(
-          (value) => Future.delayed(Duration(seconds: 1)).then(
+          (value) => Future.delayed(const Duration(seconds: 1)).then(
             (value) => _lottieAnimation.forward().then(
                   (value) => Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                          builder: (context) => GettingStartedPage(title: "blue")),
+                          builder: (context) => const GettingStartedPage(title: "blue")),
                       (route) => false),
                 ),
           ),
@@ -42,12 +44,9 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
     return Material(
         child: Container(
-            color: Color(0xFF041e42),
+            color: const Color(0xFF041e42),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -56,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen>
                       //a duration, set to one second
                       curve: Curves.fastOutSlowIn,
                       style: TextStyle(
-                        color: Color(0xFFF6F2FE),
+                        color: const Color(0xFFF6F2FE),
                         // our color from above, prefixed with 0xFF
                         fontSize: !expanded ? _bigFontSize : 50,
                         // change font size depending on expanded state
@@ -64,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen>
                         // the font from Google Fonts
                         fontWeight: FontWeight.w600, //
                       ),
-                      child: Text(
+                      child: const Text(
                         "E",
                       )),
                   AnimatedCrossFade(
@@ -90,7 +89,7 @@ class _SplashScreenState extends State<SplashScreen>
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
+        const Text(
           "XERCISE",
           style: TextStyle(
             color: Color(0xFFF6F2FE),
@@ -102,7 +101,7 @@ class _SplashScreenState extends State<SplashScreen>
         LottieBuilder.asset(
           'assets/lottie/exercise.json',
           onLoaded: (composition) {
-            _lottieAnimation..duration = composition.duration;
+            _lottieAnimation.duration = composition.duration;
           },
           frameRate: FrameRate.max,
           repeat: false,

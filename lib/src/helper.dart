@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-Color primaryColor = Color(0xFF041e42);
+const double kDefaultPadding = 16.0;
+const Color kPrimaryColor = Color(0xFF041e42);
 
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
@@ -29,9 +30,9 @@ Color getForegroundColor(Set<MaterialState> states) {
     MaterialState.focused,
   };
   if (states.any(interactiveStates.contains)) {
-    return Color(0xFFffffff);
+    return const Color(0xFFffffff);
   }
-  return Color(0xFFa0a0a0);
+  return const Color(0xFFa0a0a0);
 }
 
 Color getBackgroundColor(Set<MaterialState> states) {
@@ -41,9 +42,9 @@ Color getBackgroundColor(Set<MaterialState> states) {
     MaterialState.focused,
   };
   if (states.any(interactiveStates.contains)) {
-    return Color(0xFF82b6ff);
+    return const Color(0xFF82b6ff);
   }
-  return primaryColor;
+  return kPrimaryColor;
 }
 
 List<Map<String, String>> latLonMapWithSnailArray(int num, String latitude, String longitude) {

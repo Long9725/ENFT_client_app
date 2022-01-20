@@ -17,12 +17,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List _widgetOptions = [
-      PostListScreen(),
-      Text(
+      const PostListScreen(),
+      const Text(
         'FavoriteScreen',
         style: TextStyle(fontSize: 40),
       ),
-      Text(
+      const Text(
         'MenuScreen',
         style: TextStyle(fontSize: 40),
       ),
@@ -32,10 +32,10 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: MaterialStateProperty.all(Colors.red),
             foregroundColor: MaterialStateProperty.all(Colors.white),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
+                const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     side: BorderSide(color: Colors.red)))),
-        child: Text("Sign out"),
+        child: const Text("Sign out"),
       )
     ];
 
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
           child: Scaffold(
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
-              backgroundColor: Color(0xFF041e42),
+              backgroundColor: const Color(0xFF041e42),
               selectedItemColor: Colors.white,
               unselectedItemColor: Colors.black54,
               selectedFontSize: 14,
@@ -56,15 +56,15 @@ class _HomePageState extends State<HomePage> {
                   _selectedIndex = index;
                 });
               },
-              items: [
+              items: const [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.home), title: Text('Home')),
+                    icon: Icon(Icons.home), label: 'Home'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.star), title: Text('Favorite')),
+                    icon: Icon(Icons.star), label: 'Favorite'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.menu), title: Text('Menu')),
+                    icon: Icon(Icons.menu), label: 'Menu'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.people), title: Text('My')),
+                    icon: Icon(Icons.people), label: 'My'),
               ],
             ),
             body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           Navigator.pop(context);
         },
-        child: Icon(Icons.navigation),
+        child: const Icon(Icons.navigation),
       ),
     );
   }

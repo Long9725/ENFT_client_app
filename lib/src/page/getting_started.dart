@@ -24,13 +24,11 @@ class GettingStartedPage extends StatefulWidget {
 class _GettingStartedPageState extends State<GettingStartedPage> {
   int _currentPage = 0;
   final PageController _pageController = PageController(initialPage: 0);
-  bool _isObscure = true;
-  bool? _isChecked = false;
 
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 5), (Timer timer) {
+    Timer.periodic(const Duration(seconds: 5), (Timer timer) {
       if (_currentPage < 2) {
         _currentPage++;
       } else {
@@ -38,7 +36,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
       }
 
       _pageController.animateToPage(_currentPage,
-          duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+          duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
     });
   }
 
@@ -48,7 +46,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
     _pageController.dispose();
   }
 
-  _onPageChanged(int index) {
+  _onPageChanged(int index)  {
     setState(() {
       _currentPage = index;
     });
@@ -56,11 +54,16 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    double belowSlideDotsHeight = 102.0; // 96+6
+    double pageViewHeight = 326.0; // 200 + 16*2 + 24 + 16 + 18*3
+    double paddingSlideDotsFromBtn = (height - (belowSlideDotsHeight+pageViewHeight+kDefaultPadding*2)) / 4;
+
     return Scaffold(
       body: Container(
           color: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(kDefaultPadding),
             child: Column(
               children: <Widget>[
                 Expanded(
@@ -76,24 +79,22 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                     Stack(
                       alignment: AlignmentDirectional.topStart,
                       children: <Widget>[
-                        Container(
-                            // margin: const EdgeInsets.only(bottom: 5),
-                            child: Row(
+                        Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            for (int i = 0; i < slideList.length; i++)
-                              if (i == _currentPage)
-                                SlideDots(true)
-                              else
-                                SlideDots(false)
+                        for (int i = 0; i < slideList.length; i++)
+                          if (i == _currentPage)
+                            const SlideDots(true)
+                          else
+                            const SlideDots(false)
                           ],
-                        ))
+                        )
                       ],
                     )
                   ],
                 )),
-                SizedBox(height: 40),
+                SizedBox(height: paddingSlideDotsFromBtn),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -101,7 +102,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                       child: const Text("Getting Started"),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => HomePage(title: "blue"),
+                          builder: (context) => const HomePage(title: "blue"),
                         ));
                       },
                       style: ButtonStyle(
@@ -110,24 +111,23 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        foregroundColor: MaterialStateProperty.resolveWith(
-                            getForegroundColor),
+                        foregroundColor: MaterialStateProperty.all(const Color(0xFFF0F0F0)),
                         backgroundColor:
-                            MaterialStateProperty.all(primaryColor),
+                            MaterialStateProperty.all(kPrimaryColor),
                       ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           "Have an account?",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                         ),
                         TextButton(
                             onPressed: () async {
-                              Location location = new Location();
+                              Location location = Location();
 
                               bool _serviceEnabled;
                               PermissionStatus _permissionGranted;
@@ -153,7 +153,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                                 builder: (context) => LocationPage(),
                               ));
                             },
-                            child: Text("Login")),
+                            child: const Text("Login")),
                       ],
                     )
                   ],
@@ -161,17 +161,6 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
               ],
             ),
           )),
-      // floatingActionButton: FloatingActionButton(
-      //   heroTag: 'login',
-      //   onPressed: () {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (context) => HomePage(title: widget.title)),
-      //     );
-      //   },
-      //   child: Icon(Icons.navigation),
-      // ),
     );
   }
 }

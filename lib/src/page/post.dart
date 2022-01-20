@@ -39,14 +39,14 @@ class _PostPageState extends State<PostPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-        body: Container(
+        body: SizedBox(
             height: 300,
-            child: new Swiper(
+            child: Swiper(
               itemBuilder: (BuildContext context, int index) {
-                return new Image.asset(photos[index], fit: BoxFit.fill,);
+                return Image.asset(photos[index], fit: BoxFit.fill,);
               },
               itemCount: photos.length,
-              pagination: new SwiperPagination(),
+              pagination: const SwiperPagination(),
             )));
   }
 }
