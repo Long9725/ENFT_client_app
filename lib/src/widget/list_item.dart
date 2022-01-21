@@ -1,3 +1,4 @@
+import 'package:blue/src/helper.dart';
 import 'package:flutter/material.dart';
 
 class _Description extends StatelessWidget {
@@ -19,43 +20,31 @@ class _Description extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Padding(padding: EdgeInsets.only(bottom: 8.0)),
-              Text(
-                position + " · " + readDuration,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  color: Colors.black45,
-                ),
-              ),
-            ],
+        Text(
+          title,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
           ),
         ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                price,
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.black87,
-                ),
-              ),
-            ],
+        const Padding(padding: EdgeInsets.only(bottom: kDefaultPadding/2)),
+        Text(
+          position + " · " + readDuration,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: 12.0,
+            color: Colors.black45,
+          ),
+        ),
+        const Padding(padding: EdgeInsets.only(bottom: kDefaultPadding/2)),
+        Text(
+          price,
+          style: const TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
           ),
         ),
       ],
