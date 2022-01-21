@@ -7,6 +7,7 @@ class LocationProvider with ChangeNotifier {
 
   set addressList(List addressList) {
     _addressList = addressList;
+    notifyListeners();
   }
 
   List get addressList {

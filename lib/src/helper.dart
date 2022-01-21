@@ -98,7 +98,7 @@ Future<List> fetchData(int num, String lat, String lon) async {
   for (int i = 0; i < gpsMap.length; i++) {
     http.Response response = await http.get(
         Uri.parse(
-            "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=${gpsMap[i]['lon']},${gpsMap[i]['lat']}&sourcecrs=epsg:4326&output=json"),
+            "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=${gpsMap[i]['lat']},${gpsMap[i]['lon']}&sourcecrs=epsg:4326&output=json"),
         headers: headers);
 
     String jsonData = response.body;
