@@ -1,5 +1,7 @@
+import 'package:blue/src/model/user.dart';
 import 'package:flutter/material.dart';
 
+import 'package:blue/src/page/myInfo.dart';
 import '../screen/post_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,17 +28,7 @@ class _HomePageState extends State<HomePage> {
         'MenuScreen',
         style: TextStyle(fontSize: 40),
       ),
-      ElevatedButton(
-        onPressed: () {},
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.red),
-            foregroundColor: MaterialStateProperty.all(Colors.white),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                    side: BorderSide(color: Colors.red)))),
-        child: const Text("Sign out"),
-      )
+      MyInfoPage(user: userList[0])
     ];
 
     return Scaffold(
