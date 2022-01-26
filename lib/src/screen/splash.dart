@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:lottie/lottie.dart';
 
@@ -17,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _lottieAnimation;
   var expanded = false;
   final double _bigFontSize = 178;
-  final transitionDuration = Duration(seconds: 1);
+  final transitionDuration = const Duration(seconds: 1);
 
   @override
   void initState() {
@@ -72,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen>
                     crossFadeState: !expanded
                         ? CrossFadeState.showFirst
                         : CrossFadeState.showSecond,
-                    duration: const Duration(milliseconds: 1000),
+                    duration:   const Duration(milliseconds: 1000),
                     // the same duration as above
                     firstChild: Container(),
                     // an empty container
