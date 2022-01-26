@@ -94,16 +94,42 @@ class MyInfoPage extends StatelessWidget {
                 Row(
                   children: [
                     InkWell(
-                      onTap: () {},
-                      child: Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(image: AssetImage(user.profile),fit: BoxFit.contain)
-                      )),
+                        onTap: () {},
+                        child: Stack(
+                          children: [
+                            Container(
+                                height: 60,
+                                width: 60,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border:
+                                        Border.all(color: Colors.grey.shade300),
+                                    image: DecorationImage(
+                                        image: AssetImage(user.profile),
+                                        fit: BoxFit.contain))),
+                            Positioned(
+                                top: 35,
+                                left: 35,
+                                child: Container(
+                                  width: 25,
+                                  height: 25,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border:
+                                        Border.all(color: Colors.grey.shade300),
+                                    color: Colors.white,
+                                  ),
+                                  child: const Icon(
+                                    Icons.camera_alt_rounded,
+                                    color: Colors.black54,
+                                    size: 18,
+                                  ),
+                                ))
+                          ],
+                        )),
+                    const SizedBox(
+                      width: kDefaultPadding,
                     ),
-                    const SizedBox(width: kDefaultPadding,),
                     Expanded(
                         child: InkWell(
                             onTap: () {},
