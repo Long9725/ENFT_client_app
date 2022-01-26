@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:blue/src/model/post.dart';
+import 'package:blue/src/model/user.dart';
 import '../page/post.dart';
 import '../widget/list_item.dart';
 
@@ -33,7 +35,7 @@ class PostListScreen extends StatelessWidget {
           price: '600,000원',
           onTap: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => PostPage()));
+                context, MaterialPageRoute(builder: (context) => PostPage(post: postList[0], user: userList[0])));
           },
         ),
         CustomListItem(
@@ -47,7 +49,7 @@ class PostListScreen extends StatelessWidget {
           price: '',
           onTap: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => PostPage()));
+                context, MaterialPageRoute(builder: (context) => PostPage(post: postList[0], user: userList[1])));
           },
         ),
         CustomListItem(
@@ -61,7 +63,7 @@ class PostListScreen extends StatelessWidget {
           price: '',
           onTap: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => PostPage()));
+                context, MaterialPageRoute(builder: (context) => PostPage(post: postList[0], user: userList[2])));
           },
         ),
         CustomListItem(
@@ -75,7 +77,7 @@ class PostListScreen extends StatelessWidget {
           price: '',
           onTap: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => PostPage()));
+                context, MaterialPageRoute(builder: (context) => PostPage(post: postList[0], user: userList[3])));
           },
         ),
         CustomListItem(
@@ -89,7 +91,7 @@ class PostListScreen extends StatelessWidget {
           price: '',
           onTap: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => PostPage()));
+                context, MaterialPageRoute(builder: (context) => PostPage(post: postList[0], user: userList[0])));
           },
         ),
       ],

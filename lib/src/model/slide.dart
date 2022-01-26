@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class Slide {
   final String imageUrl;
   final String title;
