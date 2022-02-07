@@ -1,4 +1,5 @@
 import 'package:blue/src/model/user.dart';
+import 'package:blue/src/screen/ticket.dart';
 import 'package:flutter/material.dart';
 
 import 'package:blue/src/page/myInfo.dart';
@@ -20,10 +21,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     List _widgetOptions = [
       const PostListScreen(),
-      const Text(
-        'FavoriteScreen',
-        style: TextStyle(fontSize: 40),
-      ),
+      const TicketScreen(),
       const Text(
         'MenuScreen',
         style: TextStyle(fontSize: 40),
@@ -52,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.home), label: 'Home'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.star), label: 'Favorite'),
+                    icon: Icon(Icons.smartphone_rounded), label: 'Ticket'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.menu), label: 'Menu'),
                 BottomNavigationBarItem(

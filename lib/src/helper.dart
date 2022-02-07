@@ -13,9 +13,7 @@ const Color kScaffoldBackgroundColor = Color(0xfcffffff);
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
   Map<int, Color> swatch = <int, Color>{};
-  final int r = color.red,
-      g = color.green,
-      b = color.blue;
+  final int r = color.red, g = color.green, b = color.blue;
 
   for (int i = 1; i < 10; i++) {
     strengths.add(0.1 * i);
@@ -56,17 +54,16 @@ Color getBackgroundColor(Set<MaterialState> states) {
   return kPrimaryColor;
 }
 
-List<Map<String, String>> latLonMapWithSnailArray(int num, String latitude,
-    String longitude) {
+List<Map<String, String>> latLonMapWithSnailArray(
+    int num, String latitude, String longitude) {
   List<Map<String, String>> latLonMap =
-  List.generate(num * num, (_) => <String, String>{});
+      List.generate(num * num, (_) => <String, String>{});
   double lat = double.parse(latitude);
   double lon = double.parse(longitude);
 
   int index = 0;
   int swift = 1; // +는 행열의 증가, -는 행과 열의 감소
-  int col = 1,
-      row = 0;
+  int col = 1, row = 0;
 
   //[2] 처리
   do {
@@ -135,9 +132,8 @@ String distanceTimeFromNow(DateTime originDateTime) {
   int distance;
 
   distance = DateTime(now.year, now.month, now.day, now.hour, now.minute)
-      .difference(DateTime(
-      originDateTime.year, originDateTime.month, originDateTime.day,
-      originDateTime.hour, originDateTime.minute))
+      .difference(DateTime(originDateTime.year, originDateTime.month,
+          originDateTime.day, originDateTime.hour, originDateTime.minute))
       .inMinutes;
 
   if (distance ~/ 60 != 0) {
@@ -162,6 +158,8 @@ String distanceTimeFromNow(DateTime originDateTime) {
 }
 
 String currencyFormat(int price) {
-  final formatCurrency = NumberFormat.simpleCurrency(locale:"ko_KR", name:"", decimalDigits: 0);
-  return formatCurrency.format(price)+"원";
+  final formatCurrency =
+      NumberFormat.simpleCurrency(locale: "ko_KR", name: "", decimalDigits: 0);
+  return formatCurrency.format(price) + "원";
 }
+

@@ -79,7 +79,7 @@ class _LocationPageState extends State<LocationPage> {
                           LocationData _locationData;
                           _locationData = await location.getLocation();
                           context.read<LocationProvider>().addressList =
-                              await fetchData(5, _locationData.longitude.toString(), _locationData.latitude.toString());
+                              await fetchData(5,_locationData.longitude.toString(), _locationData.latitude.toString());
                           setState(() {
                             _tempList = context.read<LocationProvider>().addressList;
                             _isVisible = false;
