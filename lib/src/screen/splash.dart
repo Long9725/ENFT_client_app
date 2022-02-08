@@ -42,6 +42,12 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _lottieAnimation.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Material(
         child: Container(
