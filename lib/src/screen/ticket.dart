@@ -1,8 +1,13 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:simple_animations/simple_animations.dart';
+import 'package:supercharged/supercharged.dart';
 
 import 'package:blue/src/helper.dart';
+
+enum _ColorTween { color1, color2 }
 
 class TicketScreen extends StatefulWidget {
   const TicketScreen({Key? key}) : super(key: key);
@@ -16,6 +21,8 @@ class TicketScreenState extends State<TicketScreen> {
   final PageController _pageController = PageController(viewportFraction: 0.85);
   var _currPageValue = 0.0;
   final double _scaleFactor = 0.8;
+  Color bottomColor = kPrimaryColor;
+  Color topColor = Colors.red;
 
   @override
   void initState() {
@@ -30,8 +37,8 @@ class TicketScreenState extends State<TicketScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = (width - 80) * 1.618;
+    final width = MediaQuery.of(context).size.width * 0.8;
+    final height = width * 1.618;
     return Scaffold(
         body: Center(
             child: SizedBox(
@@ -45,13 +52,13 @@ class TicketScreenState extends State<TicketScreen> {
         controller: _pageController,
         itemCount: 3,
         itemBuilder: (BuildContext context, int index) {
-          return buildCard(index, height);
+          return buildCard(index, height, width);
         },
       ),
     )));
   }
 
-  Widget buildCard(int index, double height) {
+  Widget buildCard(int index, double height, double width) {
     Matrix4 matrix = Matrix4.identity();
     var currOpacity = 1.0;
     if (index == _currPageValue.floor()) {
@@ -80,6 +87,14 @@ class TicketScreenState extends State<TicketScreen> {
         ..setTranslationRaw(0.0, height * (1.0 - _scaleFactor) / 2.0, 0.0);
       currOpacity = currScale - 0.1;
     }
+
+    final tween = MultiTween<_ColorTween>()
+      ..add(
+          _ColorTween.color1,
+          kPrimaryColor.tweenTo(Colors.lightBlue.shade900),
+          3.seconds)
+      ..add(_ColorTween.color2, kPrimaryColor.tweenTo(Colors.blue.shade900),
+          3.seconds);
     return Transform(
         transform: matrix,
         child: Opacity(
@@ -93,60 +108,77 @@ class TicketScreenState extends State<TicketScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: kDefaultPadding,
-                          horizontal: kDefaultPadding * 2),
-                      child: Text(
-                        "ENFT",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 4.0),
-                      )),
                   Expanded(
-                      child: Container(
-                          decoration: const BoxDecoration(
-                              color: kPrimaryColor,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(16.0),
-                                  topRight: Radius.circular(16.0))),
-                          child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: kDefaultPadding,
-                                  horizontal: kDefaultPadding * 2),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "ENFT\n헬스장 이용권",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 28.0,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  SizedBox(
-                                    height: kDefaultPadding / 2,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.favorite, color: Colors.white),
-                                      SizedBox(
-                                        height: 0,
-                                        width: kDefaultPadding / 2,
-                                      ),
-                                      Expanded(
-                                          child: Text("헬스장 이름",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ))),
-                                      Icon(Icons.share, color: Colors.white)
-                                    ],
-                                  )
-                                ],
-                              )))),
+                      child: MirrorAnimation<MultiTweenValues<_ColorTween>>(
+                          tween: tween,
+                          duration: tween.duration,
+                          builder: (context, child, value) {
+                            return Container(
+                                decoration: BoxDecoration(
+                                    color: kPrimaryColor,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(16.0),
+                                        topRight: Radius.circular(16.0)),
+                                    gradient: LinearGradient(
+                                        begin: Alignment.bottomLeft,
+                                        end: Alignment.topRight,
+                                        colors: [
+                                          value.get<Color>(_ColorTween.color1),
+                                          value.get<Color>(_ColorTween.color2)
+                                        ])),
+                                child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: kDefaultPadding,
+                                        horizontal: kDefaultPadding * 2),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        Expanded(
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                              Text(
+                                                "ENFT",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 40.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    letterSpacing: 4.0),
+                                              )
+                                            ])),
+                                        Text(
+                                          "ENFT\n헬스장 이용권",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 28.0,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                        SizedBox(
+                                          height: kDefaultPadding / 2,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(Icons.favorite,
+                                                color: Colors.white),
+                                            SizedBox(
+                                              height: 0,
+                                              width: kDefaultPadding / 2,
+                                            ),
+                                            Expanded(
+                                                child: Text("헬스장 이름",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ))),
+                                            Icon(Icons.share,
+                                                color: Colors.white)
+                                          ],
+                                        )
+                                      ],
+                                    )));
+                          })),
                   Container(
                       decoration: const BoxDecoration(
                           color: Colors.white,
