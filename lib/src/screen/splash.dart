@@ -43,8 +43,8 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    super.dispose();
     _lottieAnimation.dispose();
+    super.dispose();
   }
 
   @override

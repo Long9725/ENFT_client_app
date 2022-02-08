@@ -31,10 +31,10 @@ class SignUpWithPhoneNumberPageState extends State<SignUpWithPhoneNumberPage>
 
   @override
   void dispose() {
-    super.dispose();
     _animatedController.dispose();
     _phoneNumberEditingController.dispose();
     _verificationEditingController.dispose();
+    super.dispose();
   }
 
   @override

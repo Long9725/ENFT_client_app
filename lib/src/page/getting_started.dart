@@ -45,8 +45,8 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
 
   @override
   void dispose() {
-    super.dispose();
     _pageController.dispose();
+    super.dispose();
   }
 
   _onPageChanged(int index) {

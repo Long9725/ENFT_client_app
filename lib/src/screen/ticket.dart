@@ -44,14 +44,13 @@ class TicketScreenState extends State<TicketScreen>
       } else if (_controller.status == AnimationStatus.dismissed) {
         _controller.forward();
       }
-      setState(() {});
     });
   }
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -70,19 +69,21 @@ class TicketScreenState extends State<TicketScreen>
         controller: _pageController,
         itemCount: 3,
         itemBuilder: (BuildContext context, int index) {
-          return ShaderMask(
-            child: Image(
-              image: AssetImage("assets/backgrounds/ticket.png"),
-            ),
-            shaderCallback: (Rect bounds) {
-              return LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                      colors: [animationOne.value!, animationTwo.value!])
-                  .createShader(bounds);
-            },
-            blendMode: BlendMode.srcATop,
-          );
+          return AnimatedBuilder(animation: _controller, builder: (_,child) {
+            return ShaderMask(
+              child: Image(
+                image: AssetImage("assets/backgrounds/ticket.png"),
+              ),
+              shaderCallback: (Rect bounds) {
+                return LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    colors: [animationOne.value!, animationTwo.value!])
+                    .createShader(bounds);
+              },
+              blendMode: BlendMode.srcATop,
+            );
+          });
           //   Container(
           //     decoration: BoxDecoration(
           //     image: DecorationImage(

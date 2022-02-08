@@ -23,8 +23,8 @@ class _LocationPageState extends State<LocationPage> {
 
   @override
   void dispose() {
-    super.dispose();
     _textEditingController.dispose();
+    super.dispose();
   }
 
   @override
