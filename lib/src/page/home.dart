@@ -47,10 +47,10 @@ class _HomePageState extends State<HomePage> {
               },
               items: const [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.smartphone_rounded), label: 'Ticket'),
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-                BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Menu'),
-                BottomNavigationBarItem(icon: Icon(Icons.people), label: 'My'),
+                    icon: Icon(Icons.smartphone_rounded), label: '이용권'),
+                BottomNavigationBarItem(icon: Icon(Icons.view_list_rounded), label: '게시글'),
+                BottomNavigationBarItem(icon: Icon(Icons.chat_rounded), label: '채팅'),
+                BottomNavigationBarItem(icon: Icon(Icons.people), label: '내 정보'),
               ],
             ),
             body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
