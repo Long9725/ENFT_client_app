@@ -2,27 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:blue/src/model/Post.dart';
 import 'package:blue/src/model/User.dart';
-import '../page/post.dart';
-import '../widget/list_item.dart';
 
-class PostListScreen extends StatelessWidget {
-  const PostListScreen({Key? key}) : super(key: key);
+import 'package:blue/src/page/post/post.dart';
 
+import 'package:blue/src/page/post_list/components/list_item.dart';
+
+class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Row(
-            children: [
-
-            ],
-          ),
-          automaticallyImplyLeading: false,
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.white,
-          elevation: 0.2,
-        ),
-        body: ListView(
+    // TODO: implement build
+    return ListView(
       children: <Widget>[
         CustomListItem(
           thumbnail: Container(
@@ -95,6 +84,6 @@ class PostListScreen extends StatelessWidget {
           },
         ),
       ],
-    ));
+    );
   }
 }

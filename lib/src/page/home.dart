@@ -5,7 +5,7 @@ import 'package:blue/src/model/User.dart';
 import 'package:blue/src/page/ticket/ticket.dart';
 import 'package:blue/src/page/chat/chat.dart';
 import 'package:blue/src/page/myInfo.dart';
-import '../screen/post_list.dart';
+import 'post_list/post_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
