@@ -4,12 +4,9 @@ import 'package:provider/provider.dart';
 
 import 'package:blue/src/provider/location.dart';
 import 'package:blue/src/page/sign_up/sign_up.dart';
-import 'package:blue/src/widget/overlapped_circular_progress_indicator.dart';
 
 class LocationList extends StatefulWidget {
-  const LocationList({Key? key, required this.isVisible}) : super(key: key);
-
-  final bool isVisible;
+  const LocationList({Key? key}) : super(key: key);
 
   @override
   State<LocationList> createState() => LocationListState();
@@ -28,12 +25,6 @@ class LocationListState extends State<LocationList> {
         ),
         const SizedBox(height: 10),
         Stack(children: [
-          Visibility(
-            visible: widget.isVisible,
-            child: OverlappedCircularProgressIndicator(
-                height: MediaQuery.of(context).size.height - 182,
-                width: MediaQuery.of(context).size.width),
-          ),
           ListView(shrinkWrap: true, children: <Widget>[
             for (var address in context.read<LocationProvider>().addressList)
               Column(
@@ -43,8 +34,7 @@ class LocationListState extends State<LocationList> {
                       TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  const SignUpPage(),
+                              builder: (context) => const SignUpPage(),
                             ));
                           },
                           style: ButtonStyle(

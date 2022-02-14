@@ -8,6 +8,7 @@ class FrontTicket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "ENFT\n헬스장 이용권",
