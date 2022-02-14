@@ -1,7 +1,7 @@
 import 'package:blue/src/helper.dart';
 import 'package:flutter/material.dart';
 
-import 'package:blue/src/model/user.dart';
+import 'package:blue/src/model/User.dart';
 
 class MyInfoPage extends StatelessWidget {
   final User user;

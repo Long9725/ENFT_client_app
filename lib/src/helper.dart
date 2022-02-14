@@ -22,6 +22,7 @@ const MaterialColor kPrimaryColor = MaterialColor(
     900: Color(0xffffffff),//100%
   },
 );
+const Color kErrorColor = Colors.red;
 const Color kScaffoldBackgroundColor = Color(0xfcffffff);
 
 MaterialColor createMaterialColor(Color color) {

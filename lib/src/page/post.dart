@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 import 'package:blue/src/helper.dart';
-import 'package:blue/src/model/post.dart';
-import 'package:blue/src/model/user.dart';
+import 'package:blue/src/model/Post.dart';
+import 'package:blue/src/model/User.dart';
 
 class PostPage extends StatefulWidget {
   const PostPage({Key? key, required this.post, required this.user}) : super(key: key);

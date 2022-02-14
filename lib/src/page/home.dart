@@ -1,4 +1,5 @@
-import 'package:blue/src/model/user.dart';
+import 'package:blue/src/model/User.dart';
+import 'package:blue/src/screen/chat/chat.dart';
 import 'package:blue/src/screen/ticket.dart';
 import 'package:flutter/material.dart';
 
@@ -20,12 +21,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List _widgetOptions = [
-      const PostListScreen(),
       const TicketScreen(),
-      const Text(
-        'MenuScreen',
-        style: TextStyle(fontSize: 40),
-      ),
+      const PostListScreen(),
+      ChatScreen(),
       MyInfoPage(user: userList[0])
     ];
 
@@ -48,13 +46,10 @@ class _HomePageState extends State<HomePage> {
               },
               items: const [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.home), label: 'Home'),
-                BottomNavigationBarItem(
                     icon: Icon(Icons.smartphone_rounded), label: 'Ticket'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.menu), label: 'Menu'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.people), label: 'My'),
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+                BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Menu'),
+                BottomNavigationBarItem(icon: Icon(Icons.people), label: 'My'),
               ],
             ),
             body: Center(child: _widgetOptions.elementAt(_selectedIndex)),

@@ -1,4 +1,4 @@
-import 'package:blue/src/model/user.dart';
+import 'package:blue/src/model/User.dart';
 
 class Post {
   final List<String> photos;

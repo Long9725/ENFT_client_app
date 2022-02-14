@@ -7,7 +7,7 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 import 'package:blue/src/helper.dart';
-import 'package:blue/src/model/slide.dart';
+import 'package:blue/src/model/Slide.dart';
 import 'package:blue/src/page/location.dart';
 import 'package:blue/src/provider/location.dart';
 import 'package:blue/src/widget/slide_item.dart';

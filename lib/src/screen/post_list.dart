@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:blue/src/model/post.dart';
-import 'package:blue/src/model/user.dart';
+import 'package:blue/src/model/Post.dart';
+import 'package:blue/src/model/User.dart';
 import '../page/post.dart';
 import '../widget/list_item.dart';
 
