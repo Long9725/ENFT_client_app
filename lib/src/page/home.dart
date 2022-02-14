@@ -1,8 +1,9 @@
-import 'package:blue/src/model/User.dart';
-import 'package:blue/src/screen/chat/chat.dart';
-import 'package:blue/src/screen/ticket.dart';
 import 'package:flutter/material.dart';
 
+import 'package:blue/src/model/User.dart';
+
+import 'package:blue/src/page/ticket/ticket.dart';
+import 'package:blue/src/page/chat/chat.dart';
 import 'package:blue/src/page/myInfo.dart';
 import '../screen/post_list.dart';
 
@@ -21,9 +22,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List _widgetOptions = [
-      const TicketScreen(),
+      const TicketPage(),
       const PostListScreen(),
-      ChatScreen(),
+      ChatPage(),
       MyInfoPage(user: userList[0])
     ];
 

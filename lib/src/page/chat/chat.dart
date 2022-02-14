@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:blue/src/helper.dart';
-import 'package:blue/src/model/Chat.dart';
-import 'package:blue/src/screen/chat/components/body.dart';
+import 'package:blue/src/page/chat/components/body.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

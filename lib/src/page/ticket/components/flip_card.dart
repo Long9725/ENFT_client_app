@@ -3,17 +3,17 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class FlipCardController {
-  FlipCardWidgetState? _state;
+  FlipCardState? _state;
 
   Future flipCard() async => _state?.flipCard();
 }
 
-class FlipCardWidget extends StatefulWidget {
+class FlipCard extends StatefulWidget {
   final FlipCardController controller;
   final Widget front;
   final Widget back;
 
-  const FlipCardWidget(
+  const FlipCard(
       {required this.controller,
       required this.front,
       required this.back,
@@ -21,10 +21,10 @@ class FlipCardWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  FlipCardWidgetState createState() => FlipCardWidgetState();
+  FlipCardState createState() => FlipCardState();
 }
 
-class FlipCardWidgetState extends State<FlipCardWidget>
+class FlipCardState extends State<FlipCard>
     with TickerProviderStateMixin {
   late AnimationController controller;
   bool _isFront = true;
