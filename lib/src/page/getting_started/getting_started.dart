@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:blue/src/page/getting_started/components/login_field.dart';
+import 'package:blue/src/page/getting_started/components/started_page_view.dart';
 import 'package:blue/src/page/home.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +12,8 @@ import 'package:blue/src/helper.dart';
 import 'package:blue/src/model/Slide.dart';
 import 'package:blue/src/page/location.dart';
 import 'package:blue/src/provider/location.dart';
-import 'package:blue/src/widget/slide_item.dart';
-import 'package:blue/src/widget/slide_dots.dart';
+import 'package:blue/src/page/getting_started/components/slide_item.dart';
+import 'package:blue/src/page/getting_started/components/slide_dots.dart';
 import 'package:blue/src/widget/overlapped_circular_progress_indicator.dart';
 
 class GettingStartedPage extends StatefulWidget {
@@ -25,33 +27,57 @@ class GettingStartedPage extends StatefulWidget {
 
 class _GettingStartedPageState extends State<GettingStartedPage> {
   bool _isVisible = false;
-  int _currentPage = 0;
-  final PageController _pageController = PageController(initialPage: 0);
 
-  @override
-  void initState() {
-    super.initState();
-    Timer.periodic(const Duration(seconds: 5), (Timer timer) {
-      if (_currentPage < 2) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
-      }
-
-      _pageController.animateToPage(_currentPage,
-          duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
-    });
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  _onPageChanged(int index) {
+  Future<void> accessLocation() async {
     setState(() {
-      _currentPage = index;
+      _isVisible = true;
+    });
+    Location location = Location();
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        setState(() {
+          _isVisible = false;
+        });
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        setState(() {
+          _isVisible = false;
+        });
+        return;
+      }
+    }
+
+    LocationData _locationData;
+    _locationData = await location.getLocation();
+
+    try {
+      context.read<LocationProvider>().addressList = (await fetchData(
+          5,
+          _locationData.longitude.toString(),
+          _locationData.latitude.toString()));
+    } catch (e) {
+      setState(() {
+        _isVisible = false;
+      });
+      return;
+    }
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const LocationPage(),
+    ));
+    setState(() {
+      _isVisible = false;
     });
   }
 
@@ -76,186 +102,9 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
           padding: const EdgeInsets.all(kDefaultPadding),
           child: Column(
             children: <Widget>[
-              Expanded(
-                  child: Stack(
-                alignment: AlignmentDirectional.bottomCenter,
-                children: <Widget>[
-                  PageView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: _pageController,
-                      onPageChanged: _onPageChanged,
-                      itemCount: slideList.length,
-                      itemBuilder: (context, index) => SlideItem(index)),
-                  Stack(
-                    alignment: AlignmentDirectional.topStart,
-                    children: <Widget>[
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          for (int i = 0; i < slideList.length; i++)
-                            if (i == _currentPage)
-                              const SlideDots(true)
-                            else
-                              const SlideDots(false)
-                        ],
-                      )
-                    ],
-                  )
-                ],
-              )),
+              Expanded(child: StartedPageView()),
               SizedBox(height: paddingSlideDotsFromBtn),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  SizedBox(
-                    height: 40,
-                    child: OutlinedButton(
-                      child: const Text(
-                        "시작하기",
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                      onPressed: () async {
-                        setState(() {
-                          _isVisible = true;
-                        });
-                        Location location = Location();
-
-                        bool _serviceEnabled;
-                        PermissionStatus _permissionGranted;
-
-                        _serviceEnabled = await location.serviceEnabled();
-                        if (!_serviceEnabled) {
-                          _serviceEnabled = await location.requestService();
-                          if (!_serviceEnabled) {
-                            setState(() {
-                              _isVisible = false;
-                            });
-                            return;
-                          }
-                        }
-
-                        _permissionGranted = await location.hasPermission();
-                        if (_permissionGranted == PermissionStatus.denied) {
-                          _permissionGranted =
-                              await location.requestPermission();
-                          if (_permissionGranted != PermissionStatus.granted) {
-                            setState(() {
-                              _isVisible = false;
-                            });
-                            return;
-                          }
-                        }
-
-                        LocationData _locationData;
-                        _locationData = await location.getLocation();
-
-                        try {
-                          context.read<LocationProvider>().addressList =
-                              (await fetchData(
-                                  5,
-                                  _locationData.longitude.toString(),
-                                  _locationData.latitude.toString()));
-                        } catch (e) {
-                          setState(() {
-                            _isVisible = false;
-                          });
-                          return;
-                        }
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const LocationPage(),
-                        ));
-                        setState(() {
-                          _isVisible = false;
-                        });
-                      },
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        foregroundColor:
-                            MaterialStateProperty.all(const Color(0xFFF0F0F0)),
-                        backgroundColor:
-                            MaterialStateProperty.all(kPrimaryColor),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text(
-                        "이미 계정이 있나요?",
-                        style: TextStyle(color: Colors.black54),
-                      ),
-                      TextButton(
-                          onPressed: () async {
-                            setState(() {
-                              _isVisible = true;
-                            });
-                            Location location = Location();
-
-                            bool _serviceEnabled;
-                            PermissionStatus _permissionGranted;
-
-                            _serviceEnabled = await location.serviceEnabled();
-                            if (!_serviceEnabled) {
-                              _serviceEnabled = await location.requestService();
-                              if (!_serviceEnabled) {
-                                setState(() {
-                                  _isVisible = false;
-                                });
-                                return;
-                              }
-                            }
-
-                            _permissionGranted = await location.hasPermission();
-                            if (_permissionGranted == PermissionStatus.denied) {
-                              _permissionGranted =
-                                  await location.requestPermission();
-                              if (_permissionGranted !=
-                                  PermissionStatus.granted) {
-                                setState(() {
-                                  _isVisible = false;
-                                });
-                                return;
-                              }
-                            }
-
-                            LocationData _locationData;
-                            _locationData = await location.getLocation();
-
-                            try {
-                              context.read<LocationProvider>().addressList =
-                                  await fetchData(
-                                      5,
-                                      _locationData.longitude.toString(),
-                                      _locationData.latitude.toString());
-                            } catch (e) {
-                              print(e);
-                              setState(() {
-                                _isVisible = false;
-                              });
-                              return;
-                            }
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const LocationPage(),
-                            ));
-                            setState(() {
-                              _isVisible = false;
-                            });
-                          },
-                          child: const Text(
-                            "로그인",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                    ],
-                  )
-                ],
-              )
+              LoginField(press: accessLocation)
             ],
           ),
         )

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 import 'package:blue/src/helper.dart';
-import '../model/Slide.dart';
+import '../../../model/Slide.dart';
 
 class SlideItem extends StatelessWidget {
   final int index;
