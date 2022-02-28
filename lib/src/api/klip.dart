@@ -9,20 +9,25 @@ import 'package:url_launcher/url_launcher.dart';
 // Klip App2App api for flutter
 // 3 Steps: Prepare -> Request -> Result
 class KlipApi {
-  String requestKey = "";
-  String userKlipAddress = "";
+  String _requestKey = "";
+  String _userKlipAddress = "";
+  int priceKlay = 0;
   final prepareUri = Uri.parse('https://a2a-api.klipwallet.com/v2/a2a/prepare');
   Map<String, String> headers = <String, String>{
     'Content-Type': 'application/json'
   };
 
-  KlipApi() {
-    getRequestKey();
+  String get getRequestKey =>_requestKey;
+  String get getUserKlipAddress => _userKlipAddress;
+
+  Future<void> initKlipApi() async {
+    await prepareRequestKey();
+    await getKlayKRWPriceFromBithumb();
   }
 
   // Prepare api
   // Get request key for klip App2App api
-  Future<String> getRequestKey() async {
+  Future<void> prepareRequestKey() async {
     String body = jsonEncode(<String, dynamic>{
       'bapp': {'name': 'My BApp'},
       'callback': {
@@ -36,17 +41,17 @@ class KlipApi {
         await http.post(prepareUri, body: body, headers: headers);
     final responseBody = Map<String, dynamic>.from(json.decode(response.body));
 
-    return responseBody['request_key'].toString();
+    _requestKey = responseBody['request_key'].toString();
   }
 
   // Send klay to another user
   Future<String> sendKlay(String to, String amount) async {
-    if (userKlipAddress == "") {
+    if (_userKlipAddress == "") {
       print('Error sending klay: no klip address');
       return '';
     }
     String body = jsonEncode(<String, dynamic>{
-      'transaction': {'from': userKlipAddress, 'to': to, 'amount': amount}
+      'transaction': {'from': _userKlipAddress, 'to': to, 'amount': amount}
     });
 
     final http.Response response =
@@ -59,7 +64,7 @@ class KlipApi {
 
   // Send NFT card to another user
   Future<String> sendCard(String contract, String to, String cardId) async {
-    if (userKlipAddress == "") {
+    if (_userKlipAddress == "") {
       print('Error sending card: no klip address');
       return '';
     }
@@ -67,7 +72,7 @@ class KlipApi {
     String body = jsonEncode(<String, dynamic>{
       'transaction': {
         'contract': contract,
-        'from': userKlipAddress,
+        'from': _userKlipAddress,
         'to': to,
         'card_id': cardId
       }
@@ -90,7 +95,7 @@ class KlipApi {
     final AndroidIntent intent = AndroidIntent(
         action: 'action_view',
         data: Uri.encodeFull(
-            'kakaotalk://klipwallet/open?url=https://klipwallet.com/?target=/a2a?request_key=$requestKey#Intent;scheme=kakaotalk;package=com.kakao.talk;end'),
+            'kakaotalk://klipwallet/open?url=https://klipwallet.com/?target=/a2a?request_key=$_requestKey#Intent;scheme=kakaotalk;package=com.kakao.talk;end'),
         package: 'com.kakao.talk');
     await intent.launch();
   }
@@ -98,7 +103,7 @@ class KlipApi {
   // iOS verification api
   void createDeepLink() async {
     String uri =
-        "kakaotalk://klipwallet/open?url=https://klipwallet.com/?target=/a2a?request_key=$requestKey";
+        "kakaotalk://klipwallet/open?url=https://klipwallet.com/?target=/a2a?request_key=$_requestKey";
     if (await canLaunch(uri)) {
       print("Deeplink can launch.");
       await launch(uri);
@@ -112,7 +117,7 @@ class KlipApi {
   // Status : completed, canceled, error, prepare, requested
   Future<String> getKlipAddress() async {
     Uri uri = Uri.parse(
-        'https://a2a-api.klipwallet.com/v2/a2a/result?request_key=$requestKey');
+        'https://a2a-api.klipwallet.com/v2/a2a/result?request_key=$_requestKey');
 
     final http.Response response = await http.get(uri, headers: headers);
     final body = Map<String, dynamic>.from(json.decode(response.body));
@@ -120,7 +125,7 @@ class KlipApi {
     if (body['status'].toString() == 'completed') {
       final result = Map<String, String>.from(body['result']);
       print('Get user klip address: ' + result['klaytn_address'].toString());
-      userKlipAddress = result['klaytn_address'].toString();
+      _userKlipAddress = result['klaytn_address'].toString();
       return 'completed';
     } else if (body['status'].toString() == 'canceled') {
       print('User cancel request');
@@ -129,6 +134,7 @@ class KlipApi {
       print('Error getting klip address');
       return 'error';
     } else {
+      print(body);
       print('Request in progress');
       return 'progress';
     }
@@ -138,11 +144,10 @@ class KlipApi {
   Future getUserPermission() async {
     const platform = MethodChannel('com.example.blue/klip');
 
-    requestKey = await getRequestKey();
     try {
       await platform.invokeMethod(
         'getUserPermission',
-        <String, dynamic>{'requestKey': requestKey},
+        <String, dynamic>{'requestKey': _requestKey},
       ).then((result) async {
         print('User klip permission: $result');
       });
@@ -154,7 +159,7 @@ class KlipApi {
 
   // Get klay price from bithumb api
   // https://www.bithumb.com/trade/order/KLAY_KRW
-  Future<int> getKlayKRWPriceFromBithumb() async {
+  Future<void> getKlayKRWPriceFromBithumb() async {
     Uri request = Uri.parse('https://api.bithumb.com/public/ticker/KLAY_KRW');
 
     final http.Response response = await http.get(
@@ -163,6 +168,6 @@ class KlipApi {
 
     final body = Map<String, dynamic>.from(json.decode(response.body));
 
-    return int.parse(body['data']['closing_price']);
+    priceKlay = int.parse(body['data']['closing_price']);
   }
 }

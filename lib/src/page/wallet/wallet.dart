@@ -15,26 +15,20 @@ class WalletPage extends StatefulWidget {
 }
 
 class WalletPageState extends State<WalletPage> {
-  String requestKey = "none";
-  String userKlipAddress = "none";
-  int klaytnPrice = 0;
+  KlipApi klipApi = KlipApi();
 
-  getRequestAddress() async {
-    requestKey = await RequestAddress();
-    setState(() {});
+  @override
+  void initState() {
+    // TODO: implement initState
+    klipApi.initKlipApi();
+    super.initState();
   }
 
-  getUserKlipAddress() async {
-    requestKey = await RequestAddress();
-    setState(() {});
-    userKlipAddress = await getKlipAccessUrl("", requestKey);
-    setState(() {});
-    var a = await launch(userKlipAddress);
-    print(a);
-    // if (await canLaunch(userKlipAddress)) {
-    //   print("h");
-    //   await launch(userKlipAddress);
-    // }
+  void getKlipAddress() {
+    klipApi.getKlipAddress();
+    setState(() {
+
+    });
   }
 
   @override
@@ -47,16 +41,13 @@ class WalletPageState extends State<WalletPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    QrImage(
-                      data: requestKey,
-                    ),
-                    Text(requestKey),
-                    Text(userKlipAddress),
-                    Text(klaytnPrice.toString()),
+                    Text(klipApi.getRequestKey),
+                    Text(klipApi.getUserKlipAddress),
+                    Text(klipApi.priceKlay.toString()),
                     Container(
                         height: 56.0,
                         child: OutlinedButton(
-                            onPressed: getUserKlipAddress,
+                            onPressed: getKlipAddress,
                             style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(Color(0xff216FEA)),
