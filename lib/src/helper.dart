@@ -3,23 +3,25 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 const double kDefaultPadding = 16.0;
 const MaterialColor kPrimaryColor = MaterialColor(
-  0xff041e42, // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.
+  0xff041e42,
+  // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.
   <int, Color>{
-    50: Color(0xff1d3555),//10%
-    100: Color(0xff364b68),//20%
-    200: Color(0xff4f627b),//30%
-    300: Color(0xff68788e),//40%
-    400: Color(0xff828fa1),//50%
-    500: Color(0xff9ba5b3),//60%
-    600: Color(0xffb4bcc6),//70%
-    700: Color(0xffcdd2d9),//80%
-    800: Color(0xffe6e9ec),//90%
-    900: Color(0xffffffff),//100%
+    50: Color(0xff1d3555), //10%
+    100: Color(0xff364b68), //20%
+    200: Color(0xff4f627b), //30%
+    300: Color(0xff68788e), //40%
+    400: Color(0xff828fa1), //50%
+    500: Color(0xff9ba5b3), //60%
+    600: Color(0xffb4bcc6), //70%
+    700: Color(0xffcdd2d9), //80%
+    800: Color(0xffe6e9ec), //90%
+    900: Color(0xffffffff), //100%
   },
 );
 const Color kErrorColor = Colors.red;
@@ -80,11 +82,12 @@ List<Map<String, String>> latLonMapWithSnailArray(
   int swift = 1; // +는 행열의 증가, -는 행과 열의 감소
   int col = 1, row = 0;
 
+  latLonMap.add({'lat': lat.toString(), 'lon': lon.toString()});
   //[2] 처리
   do {
     for (int i = 0; i < num; i++) {
       row += swift; // 열은 변화, 행은 고정
-      lat += 0.035 * swift;
+      lat += 0.005 * swift;
       latLonMap[index]
           .addAll({'lat': lat.toString(), 'lon': longitude.toString()});
       index = index + 1;
@@ -93,7 +96,7 @@ List<Map<String, String>> latLonMapWithSnailArray(
     if (num > 0) {
       for (int i = 0; i < num; i++) {
         col += swift; // 열은 고정, 행은 변화
-        lon += 0.075 * swift;
+        lon += 0.01 * swift;
         latLonMap[index]
             .addAll({'lat': lat.toString(), 'lon': longitude.toString()});
         index = index + 1;
@@ -111,8 +114,8 @@ Future<List> fetchData(int num, String lat, String lon) async {
   List<String> address = [];
   List<Map<String, String>> gpsMap = latLonMapWithSnailArray(num, lat, lon);
   Map<String, String> headers = {
-    "X-NCP-APIGW-API-KEY-ID": "",
-    "X-NCP-APIGW-API-KEY": ""
+    "X-NCP-APIGW-API-KEY-ID": dotenv.env['NAVER_MAP_API_KEY_ID'] ?? "",
+    "X-NCP-APIGW-API-KEY": dotenv.env['NAVER_MAP_API_KEY'] ?? ""
   };
 
   String temp = "";
@@ -177,4 +180,3 @@ String currencyFormat(int price) {
       NumberFormat.simpleCurrency(locale: "ko_KR", name: "", decimalDigits: 0);
   return formatCurrency.format(price) + "원";
 }
-
