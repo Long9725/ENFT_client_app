@@ -1,3 +1,4 @@
+import 'package:blue/src/page/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 
 import 'package:blue/src/model/User.dart';
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     List _widgetOptions = [
       const TicketPage(),
+      WalletPage(),
       const PostListScreen(),
       ChatPage(),
       MyInfoPage(user: userList[0])
@@ -48,6 +50,8 @@ class _HomePageState extends State<HomePage> {
               items: const [
                 BottomNavigationBarItem(
                     icon: Icon(Icons.smartphone_rounded), label: '이용권'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.account_balance_wallet_rounded), label: '지갑'),
                 BottomNavigationBarItem(icon: Icon(Icons.view_list_rounded), label: '게시글'),
                 BottomNavigationBarItem(icon: Icon(Icons.chat_rounded), label: '채팅'),
                 BottomNavigationBarItem(icon: Icon(Icons.people), label: '내 정보'),

@@ -7,17 +7,12 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 import 'package:blue/src/helper.dart';
-<<<<<<< HEAD
-import 'package:blue/src/model/Slide.dart';
-import 'package:blue/src/page/location.dart';
-=======
 
 import 'package:blue/src/page/home.dart';
 import 'package:blue/src/page/location/location.dart';
 import 'package:blue/src/page/getting_started/components/login_field.dart';
 import 'package:blue/src/page/getting_started/components/started_page_view.dart';
 
->>>>>>> 48f33bd (Add loading_hud)
 import 'package:blue/src/provider/location.dart';
 
 class GettingStartedPage extends StatefulWidget {
