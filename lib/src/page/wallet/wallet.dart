@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:blue/src/api/klaytn.dart';
 import 'package:blue/src/api/klip.dart';
 import 'package:blue/src/helper.dart';
 import 'package:blue/src/service/klaytn_service.dart';
@@ -16,6 +19,8 @@ class WalletPage extends StatefulWidget {
 
 class WalletPageState extends State<WalletPage> {
   KlipApi klipApi = KlipApi();
+  KlaytnApi klaytnApi = KlaytnApi();
+  int balance = 100;
 
   @override
   void initState() {
@@ -25,10 +30,21 @@ class WalletPageState extends State<WalletPage> {
   }
 
   void getKlipAddress() {
-    klipApi.getKlipAddress();
-    setState(() {
+    if (klipApi.getUserKlipAddress.isEmpty) {
+      if (Platform.isAndroid) {
+        klipApi.createIntent().whenComplete(
+            () => klipApi.getKlipAddress().whenComplete(() => setState(() {})));
+      } else {
+        klipApi.createDeepLink().whenComplete(
+            () => klipApi.getKlipAddress().whenComplete(() => setState(() {})));
+      }
+    }
+  }
 
-    });
+  void getBalance() async {
+    if (klipApi.getUserKlipAddress.isNotEmpty) {
+      await klaytnApi.getBalance(klipApi.getUserKlipAddress);
+    }
   }
 
   @override
@@ -44,6 +60,7 @@ class WalletPageState extends State<WalletPage> {
                     Text(klipApi.getRequestKey),
                     Text(klipApi.getUserKlipAddress),
                     Text(klipApi.priceKlay.toString()),
+                    Text(balance.toString()),
                     Container(
                         height: 56.0,
                         child: OutlinedButton(
@@ -71,7 +88,9 @@ class WalletPageState extends State<WalletPage> {
                                   style: TextStyle(fontSize: 18),
                                 )
                               ],
-                            )))
+                            ))),
+                    OutlinedButton(
+                        onPressed: getBalance, child: Text("getBalance"))
                   ],
                 ))));
   }

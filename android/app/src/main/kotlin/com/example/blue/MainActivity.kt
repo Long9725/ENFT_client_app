@@ -52,42 +52,7 @@ class MainActivity : FlutterActivity() {
     @kotlin.Throws(KlipRequestException::class)
     fun getUserPermission(klip: Klip, requestKey: String?) {
         klip.request(requestKey)
-    } /*
-    public String getUserAddress(Klip klip, String requestKey) throws KlipRequestException {
-        //final String[] requestKey = new String[1];
-        final String[] result = new String[1];
-        KlipCallback getResultCallback = new KlipCallback<KlipResponse>() {
-            @Override
-            public void onSuccess(final KlipResponse res) {
-                if (res.getResult() != null) {
-                    try {
-                        result[0] = res.getResult().toJson().get("klaytn_address").toString();
-                        System.out.println("################################################");
-                        System.out.println("getResult onSuccess : " + result[0]);
-                        System.out.println("################################################");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    //System.out.println("################################################");
-                    //System.out.println("################# getResult : result is null !!!");
-                    //System.out.println("################################################");
-                }
-            }
-            @Override
-            public void onFail(final KlipErrorResponse res) {
-                //System.out.println("################################################");
-                //System.out.println("get result error: " + res.getErrorMsg());
-                //System.out.println("################################################");
-            }
-        };
-        klip.getResult(requestKey, getResultCallback);
-        System.out.println("################################################");
-        System.out.println("getResult return value : " + result[0]);
-        System.out.println("################################################");
-        return result[0];
     }
-    */
 
     companion object {
         private const val CHANNEL = "com.example.blue/klip"

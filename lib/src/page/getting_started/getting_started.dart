@@ -69,8 +69,6 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
 
       LocationData _locationData;
       _locationData = await location.getLocation();
-      print(_locationData.latitude);
-      print(_locationData.longitude);
 
       try {
         context.read<LocationProvider>().addressList = (await fetchData(

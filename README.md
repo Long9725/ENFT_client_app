@@ -28,7 +28,7 @@ NAVER_MAP_API_KEY= # naver map private api key
 - [x] klip Android랑 연결하기
 - [ ] klip iOS랑 연결하기
 - [ ] 지갑 UI 만들기
-- [ ] 지갑 잔액 가져오는 api 만들기
+- [x] 지갑 잔액 가져오는 api 만들기
 - [ ] 지갑 NFT 목록 가져오는 api 만들기
 - [ ] 스마트 컨트랙트랑 연결하기
 
@@ -37,7 +37,7 @@ NAVER_MAP_API_KEY= # naver map private api key
 - [ ] 게시글 반응형 UI로 만들기(특히 사진과 글)
 - [ ] 게시글 '채팅으로 거래하기' 버튼 활성화
 
-### 채팅
+### 채팅  
 - [ ] 검색 기능 활성화
 
 ### 내 정보

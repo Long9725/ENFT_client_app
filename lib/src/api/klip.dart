@@ -91,7 +91,7 @@ class KlipApi {
   // Get user klip address(EOA) to BApp
 
   // android verification api
-  void createIntent() async {
+  Future<void> createIntent() async {
     final AndroidIntent intent = AndroidIntent(
         action: 'action_view',
         data: Uri.encodeFull(
@@ -101,7 +101,7 @@ class KlipApi {
   }
 
   // iOS verification api
-  void createDeepLink() async {
+  Future<void> createDeepLink() async {
     String uri =
         "kakaotalk://klipwallet/open?url=https://klipwallet.com/?target=/a2a?request_key=$_requestKey";
     if (await canLaunch(uri)) {
