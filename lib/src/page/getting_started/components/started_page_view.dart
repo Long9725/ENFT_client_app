@@ -12,7 +12,6 @@ class StartedPageView extends StatefulWidget {
 }
 
 class StartedPageViewState extends State<StartedPageView> {
-  bool _isVisible = false;
   int _currentPage = 0;
   final PageController _pageController = PageController(initialPage: 0);
 

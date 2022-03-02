@@ -178,5 +178,5 @@ String distanceTimeFromNow(DateTime originDateTime) {
 String currencyFormat(int price) {
   final formatCurrency =
       NumberFormat.simpleCurrency(locale: "ko_KR", name: "", decimalDigits: 0);
-  return formatCurrency.format(price) + "원";
+  return formatCurrency.format(price);
 }
