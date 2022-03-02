@@ -28,6 +28,11 @@ NAVER_MAP_API_KEY= # naver map private api key
 - [x] klip Android랑 연결하기
 - [ ] klip iOS랑 연결하기
 - [ ] 지갑 UI 만들기
+  - [ ] 지갑 카드 그라데이션 만들기
+  - [ ] 메뉴 버튼 클릭시 받기, 보내기, 내 주소, NFT 버튼 펼쳐지고 닫아지는 애니메이션 만들기
+  - [ ] NFT modal bottom sheet 만들기
+    - [ ] NFT 목록 card stack animation으로 만들기
+  
 - [x] 지갑 잔액 가져오는 api 만들기
 - [ ] 지갑 NFT 목록 가져오는 api 만들기
 - [ ] 스마트 컨트랙트랑 연결하기
