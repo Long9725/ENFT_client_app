@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:async/async.dart';
 import 'package:lottie/lottie.dart';
 
 import 'package:blue/src/helper.dart';
@@ -34,26 +33,14 @@ class MenuState extends State<Menu> with TickerProviderStateMixin {
     setState(() {
       isTap = !isTap;
     });
-    var completer = CancelableCompleter(onCancel: delayStopLottieAnimation);
-    completer.complete();
-    _lottieAnimation.forward(from: 0.3);
-  }
-
-  void delayStopLottieAnimation() {
-    Future.delayed(Duration(
-        milliseconds: _lottieAnimation.duration!.inMilliseconds ~/ 2))
-        .whenComplete(() {
-      if (isTap) _lottieAnimation.stop(canceled: true);
-    });
+    _lottieAnimation.animateTo(0.5);
   }
 
   void reverseLottieAnimation() {
     setState(() {
       isTap = !isTap;
     });
-    _lottieAnimation.reverse().whenComplete(() {
-      if (!isTap) _lottieAnimation.stop(canceled: true);
-    });
+    _lottieAnimation.reverse();
   }
 
   @override
