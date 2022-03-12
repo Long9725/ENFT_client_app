@@ -17,15 +17,15 @@ class Message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget messageContaint(ChatMessage message) {
+    Widget messageContain(ChatMessage message) {
       switch (message.messageType) {
-        case ChatMessgaeType.text:
+        case ChatMessageType.text:
           return TextMessage(message: message);
           break;
-        case ChatMessgaeType.audio:
+        case ChatMessageType.audio:
           return AudioMessage(message: message);
           break;
-        case ChatMessgaeType.video:
+        case ChatMessageType.video:
           return VideoMessage(message: message);
           break;
         default:
@@ -49,7 +49,7 @@ class Message extends StatelessWidget {
                 width: kDefaultPadding / 2,
               )
             ],
-            messageContaint(message),
+            messageContain(message),
             if (message.isSender)
               MessageStatusDot(status: message.messageStatus),
           ],

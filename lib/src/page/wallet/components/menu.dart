@@ -5,6 +5,8 @@ import 'package:lottie/lottie.dart';
 import 'package:blue/src/helper.dart';
 
 class Menu extends StatefulWidget {
+  const Menu({Key? key}) : super(key: key);
+
   @override
   State<Menu> createState() => MenuState();
 }
@@ -51,7 +53,7 @@ class MenuState extends State<Menu> with TickerProviderStateMixin {
         child: Container(
             width: 60,
             height: 60,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: kPrimaryColor,
             ),

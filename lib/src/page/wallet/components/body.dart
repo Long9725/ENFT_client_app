@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:blue/src/page/wallet/components/klip_login_button.dart';
 import 'package:blue/src/page/wallet/components/menu.dart';
+import 'package:blue/src/page/wallet/components/transaction.dart';
 import 'package:blue/src/page/wallet/components/wallet_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -66,7 +67,9 @@ class BodyState extends State<Body> {
                     receiveKlay: getBalance,
                     sendKlay: getBalance),
                 const SizedBox(height: 16),
-                Menu()
+                Menu(),
+                const SizedBox(height: 16),
+                Expanded(child: Transaction())
                 // const SizedBox(height: 16),
                 // KlipLoginButton(onPressed: getKlipAddress),
                 // const SizedBox(height: 16),

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 import 'package:blue/src/helper.dart';
 import 'package:blue/src/page/message/components/body.dart';
+
+import '../../provider/socket.dart';
 
 class MessagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: MessageBody(),
-    );
+      body: const MessageBody());
   }
 
   AppBar buildAppBar() {

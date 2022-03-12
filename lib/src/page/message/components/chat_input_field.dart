@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:blue/src/helper.dart';
+import 'package:provider/provider.dart';
+
+import '../../../provider/socket.dart';
 
 class ChatInputField extends StatelessWidget {
   const ChatInputField({Key? key}) : super(key: key);
@@ -45,8 +48,11 @@ class ChatInputField extends StatelessWidget {
                         ?.withOpacity(0.64),
                   ),
                   const SizedBox(width: kDefaultPadding / 4),
-                  const Expanded(
+                  Expanded(
                       child: TextField(
+                    onSubmitted: (text) {
+                      context.read<SocketProvider>().sendMessage(text);
+                    },
                     decoration: InputDecoration(
                         hintText: "메세지를 입력하세요", border: InputBorder.none),
                   )),

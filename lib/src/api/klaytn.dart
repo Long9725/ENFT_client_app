@@ -18,7 +18,6 @@ class KlaytnApi {
     'x-chain-id': '1001',
     'Content-type': 'application/json'
   };
-
   // Get user wallet balance
   // input: userAddress
   // response: {"jsonrpc": "2.0", "id":1, "result": Balance string, peb}
@@ -43,4 +42,12 @@ class KlaytnApi {
     Uri uri = Uri.parse(basicUri + '/metadata/nft/$address/$id');
     final http.Response response = await http.get(uri, headers: headers);
   }
+
+  // Look up user NFTs from ENFT server
+  // http://server/caver/myNFT?address
+  void LookUpNFTFromENFT(String address, String id) async {
+    Uri uri = Uri.parse('http://server_ip/caver/myNFT?$address');
+    final http.Response response = await http.get(uri, headers: headers);
+  }
+
 }
