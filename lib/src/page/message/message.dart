@@ -7,12 +7,32 @@ import 'package:blue/src/page/message/components/body.dart';
 
 import '../../provider/socket.dart';
 
-class MessagePage extends StatelessWidget {
+class MessagePage extends StatefulWidget {
+  const MessagePage({Key? key}) : super(key: key);
+
+  @override
+  State<MessagePage> createState() => MessagePageState();
+}
+
+class MessagePageState extends State<MessagePage> {
+  @override
+  void initState() {
+    super.initState();
+    connectToSocket();
+  }
+
+  @override
+  void deactivate() {
+    disconnectToSocket();
+    super.deactivate();
+  }
+
+  connectToSocket() => context.read<SocketProvider>().socket.connect();
+  disconnectToSocket() => context.read<SocketProvider>().socket.disconnect();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(),
-      body: const MessageBody());
+    return Scaffold(appBar: buildAppBar(), body: MessageBody());
   }
 
   AppBar buildAppBar() {

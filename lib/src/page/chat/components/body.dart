@@ -16,10 +16,11 @@ class ChatBody extends StatelessWidget {
         itemBuilder: (context, index) => ChatCard(
               chat: chatsData[index],
               press: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ChangeNotifierProvider(
-                        create: (_) => SocketProvider(),
-                        child: MessagePage())));
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                  SocketProvider socketProvider = SocketProvider();
+                  return ChangeNotifierProvider<SocketProvider>.value(
+                      value: socketProvider, child: MessagePage());
+                }));
               },
             ));
   }

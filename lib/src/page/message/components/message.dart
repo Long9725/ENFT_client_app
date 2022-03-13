@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:blue/src/helper.dart';
@@ -49,9 +51,21 @@ class Message extends StatelessWidget {
                 width: kDefaultPadding / 2,
               )
             ],
+            if(message.isSender) ...[
+              Text(message.time.substring(13)),
+              SizedBox(
+                width: kDefaultPadding / 2,
+              )
+            ],
             messageContain(message),
             if (message.isSender)
               MessageStatusDot(status: message.messageStatus),
+            if (!message.isSender) ...[
+              SizedBox(
+                width: kDefaultPadding / 2,
+              ),
+              Text(message.time.substring(13)),
+            ]
           ],
         ));
   }
