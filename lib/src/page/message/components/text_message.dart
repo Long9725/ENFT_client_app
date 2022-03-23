@@ -19,7 +19,7 @@ class TextMessage extends StatelessWidget {
           color: kPrimaryColor.withOpacity(message.isSender ? 1 : 0.1),
           borderRadius: BorderRadius.circular(30)),
       child: Text(
-        message.text,
+        message.text!,
         style: TextStyle(
             color: message.isSender
                 ? Colors.white

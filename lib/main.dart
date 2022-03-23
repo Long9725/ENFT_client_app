@@ -1,4 +1,5 @@
 import 'package:blue/src/provider/location.dart';
+import 'package:blue/src/provider/socket.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,6 +12,7 @@ void main() async {
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => LocationProvider()),
+      ChangeNotifierProvider(create: (_) => SocketProvider())
     ], child: const App()),
   );
 }

@@ -6,6 +6,7 @@ import 'package:blue/src/helper.dart';
 import 'package:blue/src/model/ChatMessage.dart';
 import 'package:blue/src/page/message/components/audio_message.dart';
 import 'package:blue/src/page/message/components/text_message.dart';
+import 'package:blue/src/page/message/components/image_message.dart';
 import 'package:blue/src/page/message/components/video_message.dart';
 import 'package:blue/src/page/message/components/message_status_dot.dart';
 
@@ -24,6 +25,8 @@ class Message extends StatelessWidget {
         case ChatMessageType.text:
           return TextMessage(message: message);
           break;
+        case ChatMessageType.image:
+          return ImageMessage(message: message);
         case ChatMessageType.audio:
           return AudioMessage(message: message);
           break;

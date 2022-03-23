@@ -34,24 +34,30 @@ class SocketProvider with ChangeNotifier {
     });
 
     // message event
-    socket.on('message', (data) {
+    socket.on('textMessage', (data) {
       print(data);
-      receiveMessage(data);
+      receiveTextMessage(data);
     });
-    socket.on('image', (data) => print(data));
+    socket.on('imageMessage', (data) {
+      print(data);
+      receiveImageMessage(data);
+    });
   }
 
-  sendMessage(String message) {
-    socket.emit("message", {
+  sendTextMessage(String text) {
+    socket.emit("textMessage", {
       {
         "id": socket.id,
-        "message": message,
         "username": "장성호",
+        "text": text,
         "sendAt": DateTime.now().toLocal().toString()
       }
     });
+
+    // room)id
     messages.add(ChatMessage(
-        text: message,
+        text: text,
+        images: null,
         messageType: ChatMessageType.text,
         messageStatus: MessageStatus.viewed,
         time: DateFormat.yMd().add_jm().format(DateTime.now()),
@@ -59,14 +65,44 @@ class SocketProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  sendImage() {
+  sendImageMessage(List<String>? images) {
+    socket.emit("imageMessage", {
+      {
+        "id": socket.id,
+        "username": "장성호",
+        "images": images,
+        "sendAt": DateTime.now().toLocal().toString()
+      }
+    });
 
+    // room)id
+    messages.add(ChatMessage(
+        text: null,
+        images: images,
+        messageType: ChatMessageType.image,
+        messageStatus: MessageStatus.viewed,
+        time: DateFormat.yMd().add_jm().format(DateTime.now()),
+        isSender: true));
+    notifyListeners();
   }
 
-  receiveMessage(var message) {
+  receiveTextMessage(var message) {
     messages.add(ChatMessage(
-        text: message['message'],
+        text: message['text'],
+        images: null,
         messageType: ChatMessageType.text,
+        messageStatus: MessageStatus.viewed,
+        time: DateFormat.yMd().add_jm().format(DateTime.now()),
+        isSender: false));
+    notifyListeners();
+  }
+
+  receiveImageMessage(var message) {
+    List<String> images = message['images'].cast<String>();
+    messages.add(ChatMessage(
+        text: null,
+        images: images,
+        messageType: ChatMessageType.image,
         messageStatus: MessageStatus.viewed,
         time: DateFormat.yMd().add_jm().format(DateTime.now()),
         isSender: false));

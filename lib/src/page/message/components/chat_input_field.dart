@@ -1,3 +1,4 @@
+import 'package:blue/src/widget/img_upload_btn.dart';
 import 'package:flutter/material.dart';
 
 import 'package:blue/src/helper.dart';
@@ -51,11 +52,12 @@ class ChatInputField extends StatelessWidget {
                   Expanded(
                       child: TextField(
                     onSubmitted: (text) {
-                      context.read<SocketProvider>().sendMessage(text);
+                      context.read<SocketProvider>().sendTextMessage(text);
                     },
                     decoration: InputDecoration(
                         hintText: "메세지를 입력하세요", border: InputBorder.none),
                   )),
+                  ImgUploadBtn(iconData: Icons.attach_file),
                   Icon(
                     Icons.attach_file,
                     color: Theme.of(context)

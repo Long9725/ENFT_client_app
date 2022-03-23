@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -17,8 +19,8 @@ class CustomStaggerGrid extends StatelessWidget {
             BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.55),
         child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.asset(
-              images[0],
+            child: Image.memory(
+              base64Decode(images[0])
             )),
       );
     }
@@ -27,7 +29,7 @@ class CustomStaggerGrid extends StatelessWidget {
         child: Container(
             constraints: BoxConstraints(
                 maxHeight: MediaQuery.of(context).size.height * 0.8,
-                maxWidth: MediaQuery.of(context).size.width * 0.66),
+                maxWidth: MediaQuery.of(context).size.width * 0.55),
             child: StaggeredGrid.count(
                 crossAxisCount: 6,
                 mainAxisSpacing: 2,
@@ -49,7 +51,7 @@ class CustomStaggerGrid extends StatelessWidget {
                       crossAxisCellCount = 3;
                       mainAxisCellCount = 3;
                     }
-                    if (index < images.length - 2) {
+                    else if (index < images.length - 2) {
                       crossAxisCellCount = 2;
                       mainAxisCellCount = 2;
                     } else {
@@ -78,6 +80,6 @@ class Tile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
         borderRadius: BorderRadius.circular(4),
-        child: Image.asset(image, fit: BoxFit.cover));
+        child: Image.memory(base64Decode(image), fit: BoxFit.cover));
   }
 }

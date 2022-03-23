@@ -6,6 +6,8 @@ import 'package:blue/src/model/User.dart';
 import 'package:blue/src/page/ticket/ticket.dart';
 import 'package:blue/src/page/chat/chat.dart';
 import 'package:blue/src/page/myInfo.dart';
+import 'package:provider/provider.dart';
+import '../provider/socket.dart';
 import 'post_list/post_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,6 +21,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    connectToSocket();
+  }
+
+  @override
+  void deactivate() {
+    disconnectToSocket();
+    super.deactivate();
+  }
+
+  connectToSocket() => context.read<SocketProvider>().socket.connect();
+  disconnectToSocket() => context.read<SocketProvider>().socket.disconnect();
 
   @override
   Widget build(BuildContext context) {
