@@ -44,31 +44,46 @@ class Message extends StatelessWidget {
           mainAxisAlignment: message.isSender
               ? MainAxisAlignment.end
               : MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            if (!message.isSender) ...[
-              CircleAvatar(
-                radius: 12,
-                backgroundImage: AssetImage("assets/photos/basic-profile.jpg"),
-              ),
-              SizedBox(
-                width: kDefaultPadding / 2,
-              )
-            ],
-            if(message.isSender) ...[
+            if (message.isSender) ...[
               Text(message.time.substring(13)),
               SizedBox(
                 width: kDefaultPadding / 2,
               )
             ],
-            messageContain(message),
-            if (message.isSender)
-              MessageStatusDot(status: message.messageStatus),
+            Row(
+              mainAxisAlignment: message.isSender
+                  ? MainAxisAlignment.end
+                  : MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (!message.isSender) ...[
+                  CircleAvatar(
+                    radius: 12,
+                    backgroundImage:
+                        AssetImage("assets/photos/basic-profile.jpg"),
+                  ),
+                  SizedBox(
+                    width: kDefaultPadding / 2,
+                  )
+                ],
+                messageContain(message),
+                if (message.isSender)
+                  MessageStatusDot(status: message.messageStatus),
+                if (!message.isSender) ...[
+                  SizedBox(
+                    width: kDefaultPadding / 2,
+                  ),
+                ]
+              ],
+            ),
             if (!message.isSender) ...[
+              Text(message.time.substring(13)),
               SizedBox(
                 width: kDefaultPadding / 2,
-              ),
-              Text(message.time.substring(13)),
-            ]
+              )
+            ],
           ],
         ));
   }

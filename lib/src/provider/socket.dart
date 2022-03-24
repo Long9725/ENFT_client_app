@@ -66,15 +66,6 @@ class SocketProvider with ChangeNotifier {
   }
 
   sendImageMessage(List<String>? images) {
-    socket.emit("imageMessage", {
-      {
-        "id": socket.id,
-        "username": "장성호",
-        "images": images,
-        "sendAt": DateTime.now().toLocal().toString()
-      }
-    });
-
     // room)id
     messages.add(ChatMessage(
         text: null,
@@ -83,6 +74,14 @@ class SocketProvider with ChangeNotifier {
         messageStatus: MessageStatus.viewed,
         time: DateFormat.yMd().add_jm().format(DateTime.now()),
         isSender: true));
+    socket.emit("imageMessage", {
+      {
+        "id": socket.id,
+        "username": "장성호",
+        "images": images,
+        "sendAt": DateTime.now().toLocal().toString()
+      }
+    });
     notifyListeners();
   }
 

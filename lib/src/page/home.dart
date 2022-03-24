@@ -21,20 +21,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  @override
-  void initState() {
-    super.initState();
-    connectToSocket();
-  }
-
-  @override
-  void deactivate() {
-    disconnectToSocket();
-    super.deactivate();
-  }
-
-  connectToSocket() => context.read<SocketProvider>().socket.connect();
-  disconnectToSocket() => context.read<SocketProvider>().socket.disconnect();
 
   @override
   Widget build(BuildContext context) {

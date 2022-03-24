@@ -58,14 +58,6 @@ class ChatInputField extends StatelessWidget {
                         hintText: "메세지를 입력하세요", border: InputBorder.none),
                   )),
                   ImgUploadBtn(iconData: Icons.attach_file),
-                  Icon(
-                    Icons.attach_file,
-                    color: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.color
-                        ?.withOpacity(0.64),
-                  ),
                   const SizedBox(width: kDefaultPadding / 4),
                   Icon(
                     Icons.camera_alt_outlined,
