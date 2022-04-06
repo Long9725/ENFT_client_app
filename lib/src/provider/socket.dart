@@ -18,18 +18,25 @@ class SocketProvider with ChangeNotifier {
   }
 
   void initSocket() {
+    // {transports: [websocket], path: /chat/socket.io, force new connection: true, autoConnect: false}
     socket = IO.io(
-        dotenv.env['SERVER_ADDRESS'],
-        IO.OptionBuilder()
-            .setTransports(['websocket']) // for Flutter or Dart VM
-            .enableForceNewConnection()
-            .disableAutoConnect()
-            .build() // disable auto-connection
-        );
+        (dotenv.env['SERVER_ADDRESS']),
+          IO.OptionBuilder()
+              .setTransports(['websocket'])
+              .setPath('/chat/socket.io')// for Flutter or Dart VM
+              .enableForceNew()
+              .disableAutoConnect()
+              .build() // disable auto-connection
+          );
 
     // connect event
-    socket.onConnect((_) => print('connect'));
+    socket.onConnect((_) {
+      print(socket.id);
+      socket.emit('join', 'test');
+      print('connect');
+    });
     socket.onDisconnect((_) {
+      socket.emit('leave', 'test');
       print('disconnect');
     });
 
@@ -46,11 +53,15 @@ class SocketProvider with ChangeNotifier {
 
   sendTextMessage(String text) {
     socket.emit("textMessage", {
+      // {
+      //   "id": socket.id,
+      //   "username": "장성호",
+      //   "text": text,
+      //   "sendAt": DateTime.now().toLocal().toString()
+      // }
       {
-        "id": socket.id,
-        "username": "장성호",
-        "text": text,
-        "sendAt": DateTime.now().toLocal().toString()
+        "roomId": "test",
+        "msg": text
       }
     });
 
@@ -86,14 +97,15 @@ class SocketProvider with ChangeNotifier {
   }
 
   receiveTextMessage(var message) {
-    messages.add(ChatMessage(
-        text: message['text'],
-        images: null,
-        messageType: ChatMessageType.text,
-        messageStatus: MessageStatus.viewed,
-        time: DateFormat.yMd().add_jm().format(DateTime.now()),
-        isSender: false));
-    notifyListeners();
+    print(message);
+    // messages.add(ChatMessage(
+    //     text: message['text'],
+    //     images: null,
+    //     messageType: ChatMessageType.text,
+    //     messageStatus: MessageStatus.viewed,
+    //     time: DateFormat.yMd().add_jm().format(DateTime.now()),
+    //     isSender: false));
+    // notifyListeners();
   }
 
   receiveImageMessage(var message) {

@@ -23,6 +23,7 @@ class MessagePageState extends State<MessagePage> {
 
   @override
   void deactivate() {
+    // if(context.read<SocketProvider>().socket)
     disconnectToSocket();
     super.deactivate();
   }

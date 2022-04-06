@@ -12,7 +12,8 @@ void main() async {
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => LocationProvider()),
-      ChangeNotifierProvider(create: (_) => SocketProvider())
+      // ChangeNotifierProvider(create: (_) => SocketProvider()),
+      // ChangeNotifierProvider(create: (_) => SqfliteProvider())
     ], child: const App()),
   );
 }

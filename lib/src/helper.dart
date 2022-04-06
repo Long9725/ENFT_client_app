@@ -9,19 +9,19 @@ import 'package:intl/intl.dart';
 
 const double kDefaultPadding = 16.0;
 const MaterialColor kPrimaryColor = MaterialColor(
-  0xff041e42,
+  0xffC6D84B,
   // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.
   <int, Color>{
-    50: Color(0xff1d3555), //10%
-    100: Color(0xff364b68), //20%
-    200: Color(0xff4f627b), //30%
-    300: Color(0xff68788e), //40%
-    400: Color(0xff828fa1), //50%
-    500: Color(0xff9ba5b3), //60%
-    600: Color(0xffb4bcc6), //70%
-    700: Color(0xffcdd2d9), //80%
-    800: Color(0xffe6e9ec), //90%
-    900: Color(0xffffffff), //100%
+    50: Color(0xffb2c244), //10%
+    100: Color(0xff9ead3c), //20%
+    200: Color(0xff8b9735), //30%
+    300: Color(0xff77822d), //40%
+    400: Color(0xff636c26), //50%
+    500: Color(0xff4f561e), //60%
+    600: Color(0xff3b4116), //70%
+    700: Color(0xff282b0f), //80%
+    800: Color(0xff141607), //90%
+    900: Color(0xff000000), //100%
   },
 );
 const Color kErrorColor = Colors.red;

@@ -12,7 +12,7 @@ class App extends StatelessWidget {
         title: 'Blue',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: createMaterialColor(Color(0xFF041e42)),
+          primarySwatch: createMaterialColor(Color(0xffC6D84B)),
         ),
         home: const SplashScreen());
   }

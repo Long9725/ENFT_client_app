@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
           child: Scaffold(
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
-              backgroundColor: const Color(0xFF041e42),
+              backgroundColor: const Color(0xffc6d84b),
               selectedItemColor: Colors.white,
               unselectedItemColor: Colors.black54,
               selectedFontSize: 14,

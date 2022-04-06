@@ -1,3 +1,5 @@
+import 'package:blue/src/helper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:lottie/lottie.dart';
@@ -14,7 +16,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late AnimationController _lottieAnimation;
-  var expanded = false;
+  bool expanded = false;
+  bool opacity = false;
   final double _bigFontSize = 178;
   final transitionDuration = const Duration(seconds: 1);
 
@@ -27,17 +30,13 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(const Duration(seconds: 1))
         .then((value) => setState(() => expanded = true))
-        .then((value) => const Duration(seconds: 1))
-        .then(
-          (value) => Future.delayed(const Duration(seconds: 1)).then(
-            (value) => _lottieAnimation.forward().then(
-                  (value) => Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => const GettingStartedPage(title: "blue")),
-                      (route) => false),
-                ),
-          ),
-        );
+        .then((value) => Future.delayed(const Duration(seconds: 1)))
+        .then((value) => setState(() => opacity = true))
+        .then((value) => Future.delayed(const Duration(seconds: 5)))
+        .then((value) => Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => const GettingStartedPage(title: "blue")),
+            (route) => false));
     super.initState();
   }
 
@@ -51,71 +50,73 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Material(
         child: Container(
-            color: const Color(0xFF041e42),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  AnimatedDefaultTextStyle(
+            color: Colors.white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Wrap(
+                      direction: Axis.vertical,
+                      alignment: WrapAlignment.end,
+                      runAlignment: WrapAlignment.end,
+                      crossAxisAlignment: WrapCrossAlignment.end,
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              AnimatedContainer(
+                                width: !expanded ? _bigFontSize : 90,
+                                // height: !expanded ? _bigFontSize : 90,
+                                duration: const Duration(milliseconds: 700),
+                                curve: Curves.easeInOut,
+                                child: Image.asset(
+                                  "assets/logos/logo_e.png",
+                                ),
+                              ),
+                              AnimatedCrossFade(
+                                firstCurve: Curves.fastOutSlowIn,
+                                // the same curve as above
+                                crossFadeState: !expanded
+                                    ? CrossFadeState.showFirst
+                                    : CrossFadeState.showSecond,
+                                duration: const Duration(milliseconds: 1000),
+                                // the same duration as above
+                                firstChild: Container(),
+                                // an empty container
+                                secondChild: Image.asset(
+                                  "assets/logos/logo_nft.png",
+                                  width: 100,
+                                ),
+                                // a Row containing rest of our logo
+                                alignment: Alignment.centerLeft,
+                                // "reveal" the logo from the center left
+                                sizeCurve: Curves.easeInOut,
+                              ),
+                            ]),
+                        AnimatedOpacity(
+                          opacity: !opacity ? 0 : 1.0,
+                          duration: const Duration(milliseconds: 3000),
+                          child: Image.asset(
+                            "assets/logos/logo_essential_nft.png",
+                            width: 156.25,
+                          ),
+                        )
+                      ],
+                    ),
+                    AnimatedContainer(
+                      width: !expanded ? 0 : 22.5,
+                      // height: !expanded ? _bigFontSize : 90,
                       duration: const Duration(milliseconds: 700),
-                      //a duration, set to one second
-                      curve: Curves.fastOutSlowIn,
-                      style: TextStyle(
-                        color: const Color(0xFFF6F2FE),
-                        // our color from above, prefixed with 0xFF
-                        fontSize: !expanded ? _bigFontSize : 50,
-                        // change font size depending on expanded state
-                        fontFamily: 'Montserrat',
-                        // the font from Google Fonts
-                        fontWeight: FontWeight.w600, //
-                      ),
-                      child: const Text(
-                        "E",
-                      )),
-                  AnimatedCrossFade(
-                    firstCurve: Curves.fastOutSlowIn,
-                    // the same curve as above
-                    crossFadeState: !expanded
-                        ? CrossFadeState.showFirst
-                        : CrossFadeState.showSecond,
-                    duration:   const Duration(milliseconds: 1000),
-                    // the same duration as above
-                    firstChild: Container(),
-                    // an empty container
-                    secondChild: _logoRemainder(),
-                    // a Row containing rest of our logo
-                    alignment: Alignment.centerLeft,
-                    // "reveal" the logo from the center left
-                    sizeCurve: Curves.easeInOut,
-                  ),
-                ])));
-  }
-
-  Widget _logoRemainder() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Text(
-          "XERCISE",
-          style: TextStyle(
-            color: Color(0xFFF6F2FE),
-            fontSize: 50,
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        LottieBuilder.asset(
-          'assets/lottie/exercise.json',
-          onLoaded: (composition) {
-            _lottieAnimation.duration = composition.duration;
-          },
-          frameRate: FrameRate.max,
-          repeat: false,
-          animate: false,
-          height: 100,
-          width: 100,
-          controller: _lottieAnimation,
-        )
-      ],
-    );
+                      curve: Curves.easeInOut,
+                    ),
+                  ],
+                )
+              ],
+            )));
   }
 }
