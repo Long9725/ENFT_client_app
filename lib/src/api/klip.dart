@@ -41,6 +41,7 @@ class KlipApi {
         await http.post(prepareUri, body: body, headers: headers);
     final responseBody = Map<String, dynamic>.from(json.decode(response.body));
 
+    print(responseBody['request_key'].toString());
     _requestKey = responseBody['request_key'].toString();
   }
 
@@ -115,6 +116,11 @@ class KlipApi {
   // Result api
   // Get user klip address
   // Status : completed, canceled, error, prepare, requested
+  // 현재 클립으로 이동하면서 이걸 부르는데, 클립 연동이 되기 전에 이게 먼저 실행되어서 이상하게 됌.
+  // 폴링으로 지속적으로 요청을 보낸다?
+  // 백그라운드에 잇을때 폴링이 되나?
+  // 만약에 클립 화면에서 1시간 있으면?
+  // 1분으로 하자.
   Future<String> getKlipAddress() async {
     Uri uri = Uri.parse(
         'https://a2a-api.klipwallet.com/v2/a2a/result?request_key=$_requestKey');

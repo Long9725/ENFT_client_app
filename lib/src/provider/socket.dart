@@ -18,7 +18,7 @@ class SocketProvider with ChangeNotifier {
   }
 
   void initSocket() {
-    // {transports: [websocket], path: /chat/socket.io, force new connection: true, autoConnect: false}
+    // {transports: [websocket], path: /chat/socket.io, forceNew: true, autoConnect: false}
     socket = IO.io(
         (dotenv.env['SERVER_ADDRESS']),
           IO.OptionBuilder()
@@ -29,6 +29,7 @@ class SocketProvider with ChangeNotifier {
               .build() // disable auto-connection
           );
 
+    print("heello");
     // connect event
     socket.onConnect((_) {
       print(socket.id);

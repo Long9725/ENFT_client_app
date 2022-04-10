@@ -15,6 +15,8 @@ import 'package:blue/src/page/getting_started/components/started_page_view.dart'
 
 import 'package:blue/src/provider/location.dart';
 
+import '../login/login.dart';
+
 class GettingStartedPage extends StatefulWidget {
   const GettingStartedPage({Key? key, required this.title}) : super(key: key);
 
@@ -102,7 +104,8 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => HomePage(title: "")));
+              // MaterialPageRoute(builder: (context) => HomePage(title: "")));
+              MaterialPageRoute(builder: (context) => LoginPage()));
         },
       ),
     );

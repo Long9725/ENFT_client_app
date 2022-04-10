@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 
 const double kDefaultPadding = 16.0;
 const MaterialColor kPrimaryColor = MaterialColor(
-  0xffC6D84B,
+  0xEEC6D84B,
   // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.
   <int, Color>{
     50: Color(0xffb2c244), //10%
@@ -24,6 +24,7 @@ const MaterialColor kPrimaryColor = MaterialColor(
     900: Color(0xff000000), //100%
   },
 );
+const Color kPrimaryLightColor = Color(0x99E7F29D);
 const Color kErrorColor = Colors.red;
 const Color kScaffoldBackgroundColor = Color(0xfcffffff);
 
@@ -180,3 +181,5 @@ String currencyFormat(int price) {
       NumberFormat.simpleCurrency(locale: "ko_KR", name: "", decimalDigits: 0);
   return formatCurrency.format(price);
 }
+
+

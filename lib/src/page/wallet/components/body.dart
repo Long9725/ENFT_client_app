@@ -1,11 +1,18 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:http/http.dart' as http;
 
 import 'package:blue/src/page/wallet/components/klip_login_button.dart';
 import 'package:blue/src/page/wallet/components/menu.dart';
 import 'package:blue/src/page/wallet/components/transaction.dart';
 import 'package:blue/src/page/wallet/components/wallet_card.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:blue/src/api/klaytn.dart';
 import 'package:blue/src/api/klip.dart';
@@ -21,7 +28,8 @@ class Body extends StatefulWidget {
 class BodyState extends State<Body> {
   KlipApi klipApi = KlipApi();
   KlaytnApi klaytnApi = KlaytnApi();
-  int balance = 100;
+  late Timer _timer;
+  String balance = '0';
 
   @override
   void initState() {
@@ -30,22 +38,58 @@ class BodyState extends State<Body> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void _start() {
+    String status;
+    int time = 0;
+    int timeout = 120;
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+      if (time >= timeout) _pause();
+      status = await klipApi.getKlipAddress();
+      if (status != 'progress') {
+        _pause();
+        getBalance();
+      }
+      time += 5;
+    });
+  }
+
+  void _pause() {
+    _timer.cancel();
+  }
+
   void getKlipAddress() {
     if (klipApi.getUserKlipAddress.isEmpty) {
       if (Platform.isAndroid) {
-        klipApi.createIntent().whenComplete(
-            () => klipApi.getKlipAddress().whenComplete(() => setState(() {})));
+        klipApi.createIntent().whenComplete(() => _start());
       } else {
-        klipApi.createDeepLink().whenComplete(
-            () => klipApi.getKlipAddress().whenComplete(() => setState(() {})));
+        klipApi.createDeepLink().whenComplete(() => _start());
       }
     }
   }
 
   void getBalance() async {
     if (klipApi.getUserKlipAddress.isNotEmpty) {
-      await klaytnApi.getBalance(klipApi.getUserKlipAddress);
+      balance = await klaytnApi.getBalance(klipApi.getUserKlipAddress);
+      print(balance);
+      setState(() {});
     }
+  }
+
+  void getNFT() async {
+    final address = klipApi.getUserKlipAddress;
+    Uri uri = Uri.parse(dotenv.env["SERVER_ADDRESS"]!+'/user/mynft?address=$address');
+    Map<String, String> headers = <String, String>{
+      'Content-Type': 'application/json'
+    };
+    final http.Response response = await http.get(uri, headers: headers);
+    final body = Map<String, dynamic>.from(json.decode(response.body));
+    print(body);
   }
 
   @override
@@ -62,16 +106,16 @@ class BodyState extends State<Body> {
                 // Text(klipApi.priceKlay.toString()),
                 // Text(balance.toString()),
                 WalletCard(
-                    klaytnBalance: 11123.123123,
+                    klaytnBalance: double.parse(balance),
                     klaytnPrice: klipApi.priceKlay,
                     receiveKlay: getBalance,
                     sendKlay: getBalance),
-                const SizedBox(height: 16),
-                Menu(),
-                const SizedBox(height: 16),
-                Expanded(child: Transaction())
                 // const SizedBox(height: 16),
-                // KlipLoginButton(onPressed: getKlipAddress),
+                // Menu(),
+                // const SizedBox(height: 16),
+                // Expanded(child: Transaction())
+                const SizedBox(height: 16),
+                KlipLoginButton(onPressed: getKlipAddress),
                 // const SizedBox(height: 16),
                 // OutlinedButton(onPressed: getBalance, child: Text("getBalance"))
               ],
