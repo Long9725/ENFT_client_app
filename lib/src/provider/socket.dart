@@ -20,7 +20,7 @@ class SocketProvider with ChangeNotifier {
   void initSocket() {
     // {transports: [websocket], path: /chat/socket.io, forceNew: true, autoConnect: false}
     socket = IO.io(
-        (dotenv.env['SERVER_ADDRESS']),
+        (dotenv.env['SERVER_ADDRESS']!+":8080"),
           IO.OptionBuilder()
               .setTransports(['websocket'])
               .setPath('/chat/socket.io')// for Flutter or Dart VM

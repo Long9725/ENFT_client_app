@@ -32,7 +32,7 @@ class WriterInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  user.nickName,
+                  user.nickname,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,

@@ -11,6 +11,16 @@ class ImageUtils {
 
   ImageUtils();
 
+  Future<XFile?> pickImgFromGallery() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    return image;
+  }
+
+  Future<XFile?> pickImgFromCamera() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    return image;
+  }
+
   Future<List<XFile>?> pickMultiImg() async {
     final List<XFile>? images = await _picker.pickMultiImage();
     return images;

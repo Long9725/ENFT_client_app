@@ -140,7 +140,7 @@ class MyInfoPage extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(user.nickName,
+                                      Text(user.nickname,
                                           style: const TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold)),

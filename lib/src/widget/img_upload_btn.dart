@@ -21,8 +21,6 @@ class ImgUploadBtn extends StatelessWidget {
   Future<List<String>> _pickMultiImg() async {
     List<String> temp = [];
     pickedImages = await _imageUtils.pickMultiImg();
-    // base64Images = await _addBase64ToList();
-    // print(base64Images);
     return await _addBase64ToList();
   }
 

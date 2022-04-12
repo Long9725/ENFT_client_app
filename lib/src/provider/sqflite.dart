@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-
-import 'package:provider/provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart' as sql;
 
-class SqfliteProvider with ChangeNotifier {
+class SqfliteProvider{
   static final tableName = 'user';
   late sql.Database db;
 
@@ -12,15 +9,15 @@ class SqfliteProvider with ChangeNotifier {
     init();
   }
 
-  void init() async {
+  Future<void> init() async {
     final dbPath = await sql.getDatabasesPath();
     db = await sql.openDatabase(
-      path.join(dbPath, 'nft_tick et.db'),
+      path.join(dbPath, 'enft.db'),
       onCreate: (db, version) {
         final stmt = '''CREATE TABLE IF NOT EXISTS $tableName (
             id TEXT PRIMARY KEY,
-            title TEXT,
-            image TEXT
+            address TEXT,
+            privateKey TEXT
         )'''.trim().replaceAll(RegExp(r'[\s]{2,}'), ' ');
         return db.execute(stmt);
       },
@@ -28,7 +25,7 @@ class SqfliteProvider with ChangeNotifier {
     );
   }
 
-  Future<void> insert(String table, Map<String, Object> data) async {
+  Future<void> insert(String table, Map<String, dynamic> data) async {
     await db.insert(table, data, conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 

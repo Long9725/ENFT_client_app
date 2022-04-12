@@ -1,10 +1,13 @@
-import 'package:blue/src/helper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
-import '../page/getting_started/getting_started.dart';
+import 'package:blue/src/page/home.dart';
+import 'package:blue/src/provider/user.dart';
+import 'package:blue/src/provider/sqflite.dart';
+import 'package:blue/src/page/getting_started/getting_started.dart';
+
+import '../model/User.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -18,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _lottieAnimation;
   bool expanded = false;
   bool opacity = false;
+  bool isLogin = false;
   final double _bigFontSize = 178;
   final transitionDuration = const Duration(seconds: 1);
 
@@ -28,15 +32,24 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(seconds: 1),
     );
 
+    fetchLogin();
+
     Future.delayed(const Duration(seconds: 1))
         .then((value) => setState(() => expanded = true))
         .then((value) => Future.delayed(const Duration(seconds: 1)))
         .then((value) => setState(() => opacity = true))
         .then((value) => Future.delayed(const Duration(seconds: 5)))
-        .then((value) => Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) => const GettingStartedPage(title: "blue")),
-            (route) => false));
+        .then((value) {
+      if (isLogin != true) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => GettingStartedPage()),
+            (route) => false);
+      } else {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => HomePage(title: "")),
+            (route) => false);
+      }
+    });
     super.initState();
   }
 
@@ -44,6 +57,15 @@ class _SplashScreenState extends State<SplashScreen>
   void dispose() {
     _lottieAnimation.dispose();
     super.dispose();
+  }
+
+  @override
+  void fetchLogin() async {
+    await context.read<SqfliteProvider>().init().then((value) async {
+      final user = await context.read<SqfliteProvider>().getData('user');
+      await context.read<UserProvider>().fetchUser(user);
+      isLogin = context.read<UserProvider>().login;
+    });
   }
 
   @override
